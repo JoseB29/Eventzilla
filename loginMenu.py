@@ -4,7 +4,8 @@ from tkinter import ttk
 # Create the main window
 root = tk.Tk()
 root.title("Login")
-root.geometry("390x844")  # iPhone size
+root.geometry("390x844")  # iPhone size 
+
 
 # Styling
 bg_color = "#F5F5F5"
