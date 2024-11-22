@@ -1,6 +1,7 @@
 import tkinter as tk
 from loginMenu import LoginApp
 from createAccount import CreateAccount
+from confirmEmail import ConfirmEmailScreen
 
 class App(tk.Tk):
     def __init__(self):
@@ -24,6 +25,14 @@ class App(tk.Tk):
         self.current_screen = CreateAccount(self)
         self.current_screen.pack(fill='both', expand=True)
         print("Showing CreateAccount screen")
+
+    def show_screen3(self):
+        if self.current_screen is not None:
+            print("Destroying current screen")
+            self.current_screen.destroy()
+        self.current_screen = ConfirmEmailScreen(self)
+        self.current_screen.pack(fill='both', expand=True)
+        print("Showing ConfirmEmailScreen screen")
 
 if __name__ == "__main__":
     app = App()
