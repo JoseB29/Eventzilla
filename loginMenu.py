@@ -2,19 +2,24 @@ import tkinter as tk
 from tkinter import ttk
 
 
-class LoginApp:
-    def __init__(self, root):
-        self.root = root
-        self.root.title("Login")
-        self.root.geometry("390x844")  # iPhone size
+class LoginApp(tk.Frame):
+
+    def __init__(self, master):
+        super().__init__(master)
+        self.create_widgets()
+
+
+    def create_widgets(self):        
+        self.master.title("Login")
+        self.master.geometry("390x844")  # iPhone size
 
         # Styling
         self.bg_color = "#F5F5F5"
         self.btn_color = "#25A03D"
-        self.root.configure(bg=self.bg_color)
+        self.master.configure(bg=self.bg_color)
 
         # Create a frame for the login form
-        self.frame = tk.Frame(self.root, bg="white", padx=20, pady=20)
+        self.frame = tk.Frame(self, bg="white", padx=20, pady=20)
         self.frame.place(relx=0.5, rely=0.5, anchor="center")
 
         # Add the Login Title
@@ -61,12 +66,17 @@ class LoginApp:
         # Create Account Button
         self.create_account_button = tk.Button(
             self.frame, text="Create Account", bg=self.btn_color, fg="white", font=("Helvetica", 12),
-            relief="flat", command=self.create_account
+            relief="flat", command=self.master.show_screen2
         )
         self.create_account_button.pack(fill="x", pady=(10, 0))
+        # Add more widgets here as needed
 
     def login(self):
         print("Login pressed")
 
-    def create_account(self):
-        print("Create Account pressed")
+
+# if __name__ == "__main__":
+#     root = tk.Tk()
+#     app = LoginApp(master=root)
+#     app.pack(fill='both', expand=True)
+#     root.mainloop()
