@@ -1,6 +1,4 @@
-# Eventzilla
-
-API KEYS
+ API KEYS
 Ticketmaster: 9QIWlk2dq8iktJZ8FtiX9vGSmNyhN2gW
 URL Example: https://app.ticketmaster.com/discovery/v1/events.json?apikey=9QIWlk2dq8iktJZ8FtiX9vGSmNyhN2gW
 Documentation: https://developer.ticketmaster.com/products-and-docs/apis/getting-started/
