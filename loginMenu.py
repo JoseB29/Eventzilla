@@ -46,7 +46,9 @@ class LoginApp(tk.Frame):
             fg="white",
             font=("Helvetica", 12),
             relief="flat",
-            command=self.login
+            command=lambda: [self.master.show_screen2()]
+
+            # command=self.login #
         )
         self.login_button.pack(fill="x", pady=(20, 5))
 
@@ -66,7 +68,7 @@ class LoginApp(tk.Frame):
         # Create Account Button
         self.create_account_button = tk.Button(
             self.frame, text="Create Account", bg=self.btn_color, fg="white", font=("Helvetica", 12),
-            relief="flat", command=self.master.show_screen2
+            relief="flat", command=self.master.show_screen3
         )
         self.create_account_button.pack(fill="x", pady=(10, 0))
         # Add more widgets here as needed

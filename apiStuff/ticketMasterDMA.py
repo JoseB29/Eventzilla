@@ -283,4 +283,20 @@ for line in lines:
 
 dma_dict
 
-print(dma_dict)
+#create a list of the keys
+def get_keys(dma_dict):
+    return list(dma_dict.keys())
+
+#create a list of the values
+def get_values(dma_dict):
+    return list(dma_dict.values())
+
+#given a key, return the value
+def get_value(dma_dict, key):
+    return dma_dict[key]
+
+
+#test the functions
+print(get_keys(dma_dict))
+print(get_values(dma_dict))
+# print(dma_dict)
