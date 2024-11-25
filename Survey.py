@@ -5,7 +5,7 @@ class QuestionnaireApp(tk.Tk):
     def __init__(self):
         super().__init__()
         self.title("Event Preferences Questionnaire")
-        self.geometry("390x844") #Screen Size For An Iphone
+        self.geometry("390x844")  # Screen size for an iPhone
         self.current_question = 0
         self.answers = {}
         self.create_widgets()
@@ -34,27 +34,77 @@ class QuestionnaireApp(tk.Tk):
         else:
             self.finish()
 
+    # Question 1: Zip Code Question
     def zip_code_question(self):
-        tk.Label(self.container, text="What is your zip code?").pack(pady=10)
-        self.zip_code_entry = tk.Entry(self.container)
-        self.zip_code_entry.pack(pady=5)
+        self.container.configure(bg="white")  # Set background color for the entire screen
+        tk.Label(self.container, text="Questions Start Here", bg="white", fg="black", font=("Arial", 14, "bold")).pack(anchor="w", pady=(5, 0))
 
-        button_frame = tk.Frame(self.container)
+        # Question header
+        tk.Label(self.container, text="Question 1/5", bg="#88c999", fg="white", font=("Arial", 16, "bold"), height=2).pack(fill="x")
+
+        # Question text
+        tk.Label(self.container, text="Preferred Zip Code", bg="white", fg="black", font=("Arial", 14, "bold")).pack(pady=(20, 10))
+        tk.Label(self.container, text="Enter a 5-digit zip code", bg="white", fg="black", font=("Arial", 14, "bold")).pack(pady=5)
+
+        # Input field
+        self.zip_code_entry = tk.Entry(self.container, font=("Arial", 14), width=20, justify="center")
+        self.zip_code_entry.insert(0, "#####")
+        self.zip_code_entry.pack(pady=10)
+
+        # Placeholder for the image (add your image code here later)
+        # Uncomment and add the image widget here
+        # image = tk.PhotoImage(file="path_to_image.png")
+        # tk.Label(self.container, image=image, bg="white").pack(pady=20)
+
+        # Button frame
+        button_frame = tk.Frame(self.container, bg="white")
         button_frame.pack(pady=20)
 
-        tk.Button(button_frame, text="Skip", command=self.next_question).pack(side="left", padx=10)
-        tk.Button(button_frame, text="Next", command=self.save_zip_code).pack(side="left", padx=10)
+        # Back Button
+        tk.Button(
+            button_frame,
+            text="Back",
+            command=self.previous_question,
+            bg="#88c999",
+            fg="white",
+            font=("Arial", 14, "bold"),
+            width=10
+        ).pack(side="left", padx=10)
+
+        # Next Button
+        tk.Button(
+            button_frame,
+            text="Next",
+            command=self.save_zip_code,
+            bg="#88c999",
+            fg="white",
+            font=("Arial", 14, "bold"),
+            width=10
+        ).pack(side="left", padx=10)
+
+        # Skip Button
+        tk.Button(
+            button_frame,
+            text="Skip",
+            command=self.next_question,
+            bg="#88c999",
+            fg="white",
+            font=("Arial", 14, "bold"),
+            width=10
+        ).pack(side="left", padx=10)
 
     def save_zip_code(self):
         zip_code = self.zip_code_entry.get()
-        if zip_code.strip() == "":
-            messagebox.showwarning("Input Required", "Please enter your zip code or click Skip.")
+        if zip_code.strip() == "" or zip_code == "#####":
+            messagebox.showwarning("Input Required", "Please enter a valid 5-digit zip code or click Skip.")
         else:
             self.answers['zip_code'] = zip_code
             self.next_question()
 
+    # Question 2: Event Type Question
     def event_type_question(self):
-        tk.Label(self.container, text="Select the types of events you like:").pack(pady=10)
+        tk.Label(self.container, text="Question 2/5", bg="#88c999", fg="white", font=("Arial", 16, "bold"), height=2).pack(fill="x")
+        tk.Label(self.container, text="Select the types of events you like:", bg="white", fg="black", font=("Arial", 14, "bold")).pack(pady=10)
 
         self.event_vars = {
             "Arts and Museums": tk.IntVar(),
@@ -68,68 +118,61 @@ class QuestionnaireApp(tk.Tk):
         }
 
         for event, var in self.event_vars.items():
-            tk.Checkbutton(self.container, text=event, variable=var).pack(anchor='w')
+            tk.Checkbutton(self.container, text=event, variable=var, bg="white", font=("Arial", 14, "bold"), fg="black").pack(anchor='w')
 
-        button_frame = tk.Frame(self.container)
+        button_frame = tk.Frame(self.container, bg="white")
         button_frame.pack(pady=20)
 
-        tk.Button(button_frame, text="Skip", command=self.next_question).pack(side="left", padx=10)
-        tk.Button(button_frame, text="Next", command=self.save_event_types).pack(side="left", padx=10)
+        tk.Button(button_frame, text="Skip", command=self.next_question, bg="#88c999", fg="white", font=("Arial", 14, "bold")).pack(side="left", padx=10)
+        tk.Button(button_frame, text="Next", command=self.save_event_types, bg="#88c999", fg="white", font=("Arial", 14, "bold")).pack(side="left", padx=10)
 
     def save_event_types(self):
         selected_events = [event for event, var in self.event_vars.items() if var.get() == 1]
         self.answers['event_types'] = selected_events
         self.next_question()
 
+    # Question 3: Music Genre Question
     def music_genre_question(self):
-        tk.Label(self.container, text="What music genres are you interested in?").pack(pady=10)
+        tk.Label(self.container, text="Question 3/5", bg="#88c999", fg="white", font=("Arial", 16, "bold"), height=2).pack(fill="x")
+        tk.Label(self.container, text="What music genres are you interested in?", bg="white", fg="black", font=("Arial", 14, "bold")).pack(pady=10)
 
         self.music_vars = {
             "Blues/Gospel": tk.IntVar(),
             "Classical": tk.IntVar(),
             "Country": tk.IntVar(),
             "Electronic/Techno": tk.IntVar(),
-            "House": tk.IntVar(),
             "Hip Hop/Rap": tk.IntVar(),
             "Indie": tk.IntVar(),
             "Jazz": tk.IntVar(),
             "Latin": tk.IntVar(),
-            "Reggae": tk.IntVar(),
-            "Metal": tk.IntVar(),
             "Pop": tk.IntVar(),
-            "Rock and Roll": tk.IntVar(),
-            "R&B/Soul": tk.IntVar(),
-            "Opera": tk.IntVar(),
-            "Vocal Music": tk.IntVar()
+            "Rock and Roll": tk.IntVar()
         }
 
         for genre, var in self.music_vars.items():
-            tk.Checkbutton(self.container, text=genre, variable=var).pack(anchor='w')
+            tk.Checkbutton(self.container, text=genre, variable=var, bg="white", font=("Arial", 14, "bold"), fg="black").pack(anchor='w')
 
-        button_frame = tk.Frame(self.container)
+        button_frame = tk.Frame(self.container, bg="white")
         button_frame.pack(pady=20)
 
-        tk.Button(button_frame, text="Skip", command=self.next_question).pack(side="left", padx=10)
-        tk.Button(button_frame, text="Next", command=self.save_music_genres).pack(side="left", padx=10)
+        tk.Button(button_frame, text="Skip", command=self.next_question, bg="#88c999", fg="white", font=("Arial", 14, "bold")).pack(side="left", padx=10)
+        tk.Button(button_frame, text="Next", command=self.save_music_genres, bg="#88c999", fg="white", font=("Arial", 14, "bold")).pack(side="left", padx=10)
 
     def save_music_genres(self):
         selected_genres = [genre for genre, var in self.music_vars.items() if var.get() == 1]
         self.answers['music_genres'] = selected_genres
         self.next_question()
 
+    # Question 4: Sports Interest Question
     def sports_interest_question(self):
-        tk.Label(self.container, text="What sports are you interested in?").pack(pady=10)
+        tk.Label(self.container, text="Question 4/5", bg="#88c999", fg="white", font=("Arial", 16, "bold"), height=2).pack(fill="x")
+        tk.Label(self.container, text="What sports are you interested in?", bg="white", fg="black", font=("Arial", 14, "bold")).pack(pady=10)
 
         self.sports_vars = {
             "Soccer": tk.IntVar(),
             "Football": tk.IntVar(),
-            "Baseball": tk.IntVar(),
-            "Basketball": tk.IntVar(),
             "Tennis": tk.IntVar(),
             "Golf": tk.IntVar(),
-            "Hockey": tk.IntVar(),
-            "Cycling": tk.IntVar(),
-            "Track and Field": tk.IntVar(),
             "Cricket": tk.IntVar(),
             "Wrestling": tk.IntVar(),
             "Martial Arts": tk.IntVar(),
@@ -139,22 +182,27 @@ class QuestionnaireApp(tk.Tk):
         }
 
         for sport, var in self.sports_vars.items():
-            tk.Checkbutton(self.container, text=sport, variable=var).pack(anchor='w')
+            tk.Checkbutton(self.container, text=sport, variable=var, bg="white", font=("Arial", 14, "bold"), fg="black").pack(anchor='w')
 
-        button_frame = tk.Frame(self.container)
+        button_frame = tk.Frame(self.container, bg="white")
         button_frame.pack(pady=20)
 
-        tk.Button(button_frame, text="Skip", command=self.next_question).pack(side="left", padx=10)
-        tk.Button(button_frame, text="Next", command=self.save_sports_interests).pack(side="left", padx=10)
+        tk.Button(button_frame, text="Skip", command=self.next_question, bg="#88c999", fg="white", font=("Arial", 14, "bold")).pack(side="left", padx=10)
+        tk.Button(button_frame, text="Next", command=self.save_sports_interests, bg="#88c999", fg="white", font=("Arial", 14, "bold")).pack(side="left", padx=10)
 
     def save_sports_interests(self):
         selected_sports = [sport for sport, var in self.sports_vars.items() if var.get() == 1]
         self.answers['sports_interests'] = selected_sports
         self.next_question()
 
+    # Question 5: Notification Preferences Question
     def notification_preferences_question(self):
-        tk.Label(self.container, text="Set your notification preferences:").pack(pady=10)
+        tk.Label(self.container, text="Question 5/5", bg="#88c999", fg="white", font=("Arial", 16, "bold"), height=2).pack(fill="x")
+        tk.Label(self.container, text="Set your notification preferences:", bg="white", fg="black", font=("Arial", 14, "bold")).pack(pady=10)
 
+        self.price_tracking_var = tk.IntVar()
+        tk.Checkbutton(self.container, text="Enable price tracking notifications", variable=self.price_tracking_var, bg="white", font=("Arial", 14, "bold"), fg="black").pack(anchor='w')
+        
         self.price_tracking_var = tk.IntVar()
         tk.Checkbutton(self.container, text="Enable price tracking notifications", variable=self.price_tracking_var).pack(anchor='w')
 
@@ -171,14 +219,25 @@ class QuestionnaireApp(tk.Tk):
         button_frame = tk.Frame(self.container)
         button_frame.pack(pady=20)
 
-        tk.Button(button_frame, text="Skip", command=self.next_question).pack(side="left", padx=10)
-        tk.Button(button_frame, text="Finish", command=self.save_notifications).pack(side="left", padx=10)
+        # tk.Label(self.container, text="Frequency of Notifications:", bg="white", fg="black", font=("Arial", 14, "bold")).pack(pady=5)
+        # self.notification_frequency = tk.StringVar(value="Weekly")
+        # for frequency in ["Once a Month", "Once a Week", "Daily"]:
+        #     tk.Radiobutton(self.container, text=frequency, variable=self.notification_frequency, value=frequency, bg="white", font=("Arial", 14, "bold"), fg="black").pack(anchor='w')
+
+        # button_frame = tk.Frame(self.container, bg="white")
+
+        tk.Button(button_frame, text="Skip", command=self.next_question, bg="#88c999", fg="white", font=("Arial", 14, "bold")).pack(side="left", padx=10)
+        tk.Button(button_frame, text="Finish", command=self.save_notifications, bg="#88c999", fg="white", font=("Arial", 14, "bold")).pack(side="left", padx=10)
 
     def save_notifications(self):
         self.answers['price_tracking'] = bool(self.price_tracking_var.get())
         self.answers['notification_frequency'] = self.notification_frequency.get()
-        self.answers['reminder_frequency'] = self.reminder_frequency.get()
         self.next_question()
+
+    def previous_question(self):
+        if self.current_question > 0:
+            self.current_question -= 1
+            self.show_question()
 
     def next_question(self):
         self.current_question += 1
@@ -187,9 +246,8 @@ class QuestionnaireApp(tk.Tk):
     def finish(self):
         for widget in self.container.winfo_children():
             widget.destroy()
-
-        tk.Label(self.container, text="Thank you for completing the questionnaire!").pack(pady=20)
-        tk.Button(self.container, text="Exit", command=self.quit).pack(pady=10)
+        tk.Label(self.container, text="Thank you for completing the questionnaire!", bg="white", fg="black", font=("Arial", 16, "bold")).pack(pady=20)
+        tk.Button(self.container, text="Exit", command=self.quit, bg="#88c999", fg="white", font=("Arial", 14, "bold")).pack(pady=10)
         print("Collected Answers:", self.answers)
 
 if __name__ == "__main__":
