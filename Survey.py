@@ -51,51 +51,17 @@ class QuestionnaireApp(tk.Tk):
         self.zip_code_entry.insert(0, "")
         self.zip_code_entry.pack(pady=10)
 
-        # Placeholder for the image (add your image code here later)
-        # Uncomment and add the image widget here
-        # image = tk.PhotoImage(file="path_to_image.png")
-        # tk.Label(self.container, image=image, bg="white").pack(pady=20)
-
         # Button frame
         button_frame = tk.Frame(self.container, bg="white")
         button_frame.pack(pady=20)
 
-        # Back Button
-        tk.Button(
-            button_frame,
-            text="Back",
-            command=self.previous_question,
-            bg="#88c999",
-            fg="white",
-            font=("Arial", 14, "bold"),
-            width=10
-        ).pack(side="left", padx=10)
-
-        # Next Button
-        tk.Button(
-            button_frame,
-            text="Next",
-            command=self.save_zip_code,
-            bg="#88c999",
-            fg="white",
-            font=("Arial", 14, "bold"),
-            width=10
-        ).pack(side="left", padx=10)
-
-        # Skip Button
-        tk.Button(
-            button_frame,
-            text="Skip",
-            command=self.next_question,
-            bg="#88c999",
-            fg="white",
-            font=("Arial", 14, "bold"),
-            width=10
-        ).pack(side="left", padx=10)
+        tk.Button(button_frame, text="Back", command=self.previous_question, bg="#88c999", fg="white", font=("Arial", 14, "bold"), width=10).pack(side="left", padx=10)
+        tk.Button(button_frame, text="Next", command=self.save_zip_code, bg="#88c999", fg="white", font=("Arial", 14, "bold"), width=10).pack(side="left", padx=10)
+        tk.Button(button_frame, text="Skip", command=self.next_question, bg="#88c999", fg="white", font=("Arial", 14, "bold"), width=10).pack(side="left", padx=10)
 
     def save_zip_code(self):
         zip_code = self.zip_code_entry.get()
-        if zip_code.strip() == "" or zip_code == "#####":
+        if zip_code.strip() == "":
             messagebox.showwarning("Input Required", "Please enter a valid 5-digit zip code or click Skip.")
         else:
             self.answers['zip_code'] = zip_code
@@ -197,22 +163,45 @@ class QuestionnaireApp(tk.Tk):
 
     # Question 5: Notification Preferences Question
     def notification_preferences_question(self):
+        self.container.configure(bg="white")
         tk.Label(self.container, text="Question 5/5", bg="#88c999", fg="white", font=("Arial", 16, "bold"), height=2).pack(fill="x")
         tk.Label(self.container, text="Set your notification preferences:", bg="white", fg="black", font=("Arial", 14, "bold")).pack(pady=10)
 
         self.price_tracking_var = tk.IntVar()
-        tk.Checkbutton(self.container, text="Enable price tracking notifications", variable=self.price_tracking_var, bg="white", font=("Arial", 14, "bold"), fg="black").pack(anchor='w')
-        
+        tk.Checkbutton(
+            self.container,
+            text="Enable price tracking notifications",
+            variable=self.price_tracking_var,
+            bg="white",
+            font=("Arial", 14, "bold"),
+            fg="black"
+        ).pack(anchor='w', pady=5)
 
-        tk.Label(self.container, text="Frequency of Basic Notifications:").pack(pady=5)
-        self.notification_frequency = tk.StringVar(value="Weekly")
+        tk.Label(self.container, text="Frequency of Basic Notifications:", bg="white", fg="black", font=("Arial", 14, "bold")).pack(pady=5)
+        self.notification_frequency = tk.StringVar(value="Once a Week")
         for frequency in ["Once a Month", "Once a Week", "Daily"]:
-            tk.Radiobutton(self.container, text=frequency, variable=self.price_tracking_var, bg="white", font=("Arial", 14, "bold"), fg="black").pack(anchor='w')
+            tk.Radiobutton(
+                self.container,
+                text=frequency,
+                variable=self.notification_frequency,
+                value=frequency,
+                bg="white",
+                font=("Arial", 14, "bold"),
+                fg="black"
+            ).pack(anchor='w')
 
-        tk.Label(self.container, text="Reminders for favorited events:").pack(pady=5)
-        self.reminder_frequency = tk.StringVar(value="Weekly")
+        tk.Label(self.container, text="Reminders for Favorited Events:", bg="white", fg="black", font=("Arial", 14, "bold")).pack(pady=5)
+        self.reminder_frequency = tk.StringVar(value="Once a Week")
         for reminder in ["Once a Month", "Once a Week", "Daily"]:
-            tk.Radiobutton(self.container, text=reminder, variable=self.price_tracking_var, bg="white", font=("Arial", 14, "bold"), fg="black").pack(anchor='w')
+            tk.Radiobutton(
+                self.container,
+                text=reminder,
+                variable=self.reminder_frequency,
+                value=reminder,
+                bg="white",
+                font=("Arial", 14, "bold"),
+                fg="black"
+            ).pack(anchor='w')
 
         button_frame = tk.Frame(self.container, bg="white")
         button_frame.pack(pady=20)
@@ -223,6 +212,7 @@ class QuestionnaireApp(tk.Tk):
     def save_notifications(self):
         self.answers['price_tracking'] = bool(self.price_tracking_var.get())
         self.answers['notification_frequency'] = self.notification_frequency.get()
+        self.answers['reminder_frequency'] = self.reminder_frequency.get()
         self.next_question()
 
     def previous_question(self):
