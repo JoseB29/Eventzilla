@@ -3,6 +3,7 @@ from loginMenu import LoginApp
 from createAccount import CreateAccount
 from confirmEmail import ConfirmEmailScreen
 from discoverPage import DiscoverPage
+from moodCheck import MoodCheckScreen
 
 class App(tk.Tk):
     def __init__(self):
@@ -23,9 +24,11 @@ class App(tk.Tk):
         if self.current_screen is not None:
             print("Destroying current screen")
             self.current_screen.destroy()
-        self.current_screen = DiscoverPage(self)
+        #self.current_screen = DiscoverPage(self)
+        self.current_screen = MoodCheckScreen(self)
         self.current_screen.pack(fill='both', expand=True)
-        print("Showing DiscoverPage screen")
+        #print("Showing DiscoverPage screen")
+        print("Showing MoodCheck screen")
 
     def show_screen3(self):
         if self.current_screen is not None:
@@ -42,6 +45,22 @@ class App(tk.Tk):
         self.current_screen = ConfirmEmailScreen(self)
         self.current_screen.pack(fill='both', expand=True)
         print("Showing ConfirmEmailScreen screen")
+    
+    def show_mood_check_screen(self):
+        if self.current_screen is not None:
+            print("Destroying current screen")
+            self.current_screen.destroy()
+        self.current_screen = MoodCheckScreen(self)
+        self.current_screen.pack(fill="both", expand=True)
+        print("Showing MoodCheck screen")
+
+    def show_discover_page(self):
+        if self.current_screen is not None:
+            print("Destroying current screen")
+            self.current_screen.destroy()
+        self.current_screen = DiscoverPage(self)  
+        self.current_screen.pack(fill="both", expand=True)
+        print("Showing DiscoverPage screen")
 
 if __name__ == "__main__":
     app = App()

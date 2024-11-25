@@ -75,6 +75,7 @@ class LoginApp(tk.Frame):
 
     def login(self):
         print("Login pressed")
+        self.master.show_mood_check_screen()
 
 
 # if __name__ == "__main__":
