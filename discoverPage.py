@@ -54,26 +54,54 @@ class DiscoverPage(tk.Frame):
             label.pack(pady=10)
 
         # Add a back button to the bottom green bar
-        self.back_button = tk.Button(
-            self.green_bar_bottom,
-            text="Back",
-            bg=self.btn_color,
-            fg="white",
-            font=("Helvetica", 12),
-            relief="flat",
-            command=self.clear_and_back
-        )
+        # self.back_button = tk.Button(
+        #     self.green_bar_bottom,
+        #     text="Back",
+        #     bg=self.btn_color,
+        #     fg="white",
+        #     font=("Helvetica", 12),
+        #     relief="flat",
+        #     command=self.clear_and_back
+        # )
 
-        self.back_button.pack(pady=10, side="right")  # Use pack instead of place for simplicity
+        # self.back_button.pack(pady=10, side="right")  # Use pack instead of place for simplicity
 
         
+        # Create a frame to hold the images and use grid layout for even distribution
+        self.image_frame = tk.Frame(self.green_bar_bottom, bg=self.btn_color)
+        self.image_frame.pack(fill="x", pady=10)
+
         # Load and add an image to the bottom left of the green bar
-        image = Image.open("appElements\\magnifyingIconMagnifying.webp")  # Replace with your image path
-        resized_image = image.resize((50, 50), Image.LANCZOS)  # Resize the image to 50x50 pixels
-        photo = ImageTk.PhotoImage(resized_image)
-        self.image_label = tk.Label(self.green_bar_bottom, image=photo, bg=self.btn_color)
+        magnifyingGlass = Image.open("appElements\\magnifyingIconMagnifying.webp")  # Replace with your image path
+        resized_magnifyingGlass_image = magnifyingGlass.resize((50, 50), Image.LANCZOS)  # Resize the image to 50x50 pixels
+        photo = ImageTk.PhotoImage(resized_magnifyingGlass_image)
+        self.image_label = tk.Label(self.image_frame, image=photo, bg=self.btn_color)
         self.image_label.image = photo  # Keep a reference to avoid garbage collection
-        self.image_label.pack(side="left", padx=10, pady=10)
+        self.image_label.grid(row=0, column=0, padx=20)
+
+        # Add an image next to the magnifying glass icon
+        tickets = Image.open("appElements\\for_you_logo.png")  # Replace with your image path
+        resized_for_you_image = tickets.resize((50, 50), Image.LANCZOS)
+        photo2 = ImageTk.PhotoImage(resized_for_you_image)
+        self.image_label2 = tk.Label(self.image_frame, image=photo2, bg=self.btn_color)
+        self.image_label2.image = photo2  # Keep a reference to avoid garbage collection
+        self.image_label2.grid(row=0, column=1, padx=20)
+
+        # Add another image next to the previous icon
+        tickets_logo = Image.open("appElements\\ticketLogo.png")  # Replace with your image path
+        resized_tickets_image = tickets_logo.resize((50, 40), Image.LANCZOS)
+        photo3 = ImageTk.PhotoImage(resized_tickets_image)
+        self.image_label3 = tk.Label(self.image_frame, image=photo3, bg=self.btn_color)
+        self.image_label3.image = photo3  # Keep a reference to avoid garbage collection
+        self.image_label3.grid(row=0, column=2, padx=20)
+
+        # Add another image next to the previous icon
+        profile_icon = Image.open("appElements\\profile_icon.webp")  # Replace with your image path
+        resized_profile_icon_image = profile_icon.resize((50, 50), Image.LANCZOS)
+        photo4 = ImageTk.PhotoImage(resized_profile_icon_image)
+        self.image_label4 = tk.Label(self.image_frame, image=photo4, bg=self.btn_color)
+        self.image_label4.image = photo4  # Keep a reference to avoid garbage collection
+        self.image_label4.grid(row=0, column=3, padx=20)
 
 
     def clear_and_back(self):

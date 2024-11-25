@@ -197,5 +197,11 @@ if __name__ == "__main__":
     ticketmaster_api = TicketmasterAPI(apiCall, image_folder)
     ticketmaster_api.fetch_events()
 
-    # Create an instance of the TicketmasterPrinter class and pass the fetched events and image paths to it
-    ticketmaster_printer = TicketmasterPrinter(ticketmaster_api.get_events(), ticketmaster_api.image_paths)
+    # Create an instance of the TicketmasterPrinter class
+    ticketmaster_printer = TicketmasterPrinter(
+        ticketmaster_api.get_events(),  # List of events
+        ticketmaster_api.image_paths   # Dictionary of image paths
+    )
+
+    # Print all event details
+    ticketmaster_printer.print_all_event_details()
