@@ -48,7 +48,7 @@ class QuestionnaireApp(tk.Tk):
 
         # Input field
         self.zip_code_entry = tk.Entry(self.container, font=("Arial", 14), width=20, justify="center")
-        self.zip_code_entry.insert(0, "#####")
+        self.zip_code_entry.insert(0, "")
         self.zip_code_entry.pack(pady=10)
 
         # Placeholder for the image (add your image code here later)
@@ -203,28 +203,19 @@ class QuestionnaireApp(tk.Tk):
         self.price_tracking_var = tk.IntVar()
         tk.Checkbutton(self.container, text="Enable price tracking notifications", variable=self.price_tracking_var, bg="white", font=("Arial", 14, "bold"), fg="black").pack(anchor='w')
         
-        self.price_tracking_var = tk.IntVar()
-        tk.Checkbutton(self.container, text="Enable price tracking notifications", variable=self.price_tracking_var).pack(anchor='w')
 
         tk.Label(self.container, text="Frequency of Basic Notifications:").pack(pady=5)
         self.notification_frequency = tk.StringVar(value="Weekly")
         for frequency in ["Once a Month", "Once a Week", "Daily"]:
-            tk.Radiobutton(self.container, text=frequency, variable=self.notification_frequency, value=frequency).pack(anchor='w')
+            tk.Radiobutton(self.container, text=frequency, variable=self.price_tracking_var, bg="white", font=("Arial", 14, "bold"), fg="black").pack(anchor='w')
 
         tk.Label(self.container, text="Reminders for favorited events:").pack(pady=5)
         self.reminder_frequency = tk.StringVar(value="Weekly")
         for reminder in ["Once a Month", "Once a Week", "Daily"]:
-            tk.Radiobutton(self.container, text=reminder, variable=self.reminder_frequency, value=reminder).pack(anchor='w')
+            tk.Radiobutton(self.container, text=reminder, variable=self.price_tracking_var, bg="white", font=("Arial", 14, "bold"), fg="black").pack(anchor='w')
 
-        button_frame = tk.Frame(self.container)
+        button_frame = tk.Frame(self.container, bg="white")
         button_frame.pack(pady=20)
-
-        # tk.Label(self.container, text="Frequency of Notifications:", bg="white", fg="black", font=("Arial", 14, "bold")).pack(pady=5)
-        # self.notification_frequency = tk.StringVar(value="Weekly")
-        # for frequency in ["Once a Month", "Once a Week", "Daily"]:
-        #     tk.Radiobutton(self.container, text=frequency, variable=self.notification_frequency, value=frequency, bg="white", font=("Arial", 14, "bold"), fg="black").pack(anchor='w')
-
-        # button_frame = tk.Frame(self.container, bg="white")
 
         tk.Button(button_frame, text="Skip", command=self.next_question, bg="#88c999", fg="white", font=("Arial", 14, "bold")).pack(side="left", padx=10)
         tk.Button(button_frame, text="Finish", command=self.save_notifications, bg="#88c999", fg="white", font=("Arial", 14, "bold")).pack(side="left", padx=10)
