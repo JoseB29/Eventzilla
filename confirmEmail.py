@@ -25,8 +25,8 @@ class ConfirmEmailScreen(tk.Frame):
         code = self.code_entry.get()
         if self.validate_code(code):
             messagebox.showinfo("Success", "Email confirmed successfully!")
-            # go back to the login screen
-            self.master.show_screen1()
+            # go back to the survey screen
+            self.master.show_screen5()
         else:
             messagebox.showerror("Error", "Invalid code")
 

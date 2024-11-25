@@ -1,18 +1,22 @@
 import tkinter as tk
 from tkinter import messagebox
 
-class QuestionnaireApp(tk.Tk):
-    def __init__(self):
-        super().__init__()
-        self.title("Event Preferences Questionnaire")
-        self.geometry("390x844")  # Screen size for an iPhone
-        self.current_question = 0
-        self.answers = {}
+class QuestionnaireApp(tk.Frame):
+    def __init__(self, master=None):
+        super().__init__(master)
+        self.master = master
         self.create_widgets()
 
     def create_widgets(self):
+        self.master.title("Event Preferences Questionnaire")
+        self.master.geometry("390x844")  # Screen size for an iPhone
+        self.current_question = 0
+        self.answers = {}
+
+        # Create a container frame
         self.container = tk.Frame(self)
         self.container.pack(fill="both", expand=True)
+
         self.show_question()
 
     def show_question(self):

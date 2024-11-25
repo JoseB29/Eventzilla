@@ -136,7 +136,7 @@ class CreateAccount(tk.Frame):
         self.send_confirmation_email(email)
 
         # confirm email screen
-        self.master.show_screen3()
+        self.master.show_screen4()
 
 
     def generate_confirmation_code(self):
