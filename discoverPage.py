@@ -15,105 +15,102 @@ class DiscoverPage(tk.Frame):
 
         # Styling
         self.bg_color = "#F5F5F5"
-        self.btn_color = "#25A03D"
+        self.btn_color = "#D3D3D3"  # Light gray for button
         self.master.configure(bg=self.bg_color)
 
         # Add a green bar at the top of the screen
-        self.green_bar = tk.Frame(self.master, bg=self.btn_color, height=90)
-        self.green_bar.pack(fill="x")
+        self.green_bar = tk.Frame(self.master, bg="#25A03D", height=90)
+        self.green_bar.pack(fill="x", side="top")
+        self.green_bar.pack_propagate(False)
 
         # Add a title at the center of the top green bar
-        self.title = tk.Label(self.green_bar, text="Discover", font=("Odibee Sans", 24, "bold"), fg="white", bg=self.btn_color)
-        self.title.place(relx=0.5, rely=0.5, anchor="center")
+        self.title = tk.Label(self.green_bar, text="Discover", font=("Odibee Sans", 24, "bold"), fg="white", bg="#25A03D")
+        self.title.pack(expand=True)
 
-        # Add a green bar at the bottom of the screen
-        self.green_bar_bottom = tk.Frame(self.master, bg=self.btn_color, height=70)
-        self.green_bar_bottom.pack(fill="x", side="bottom")
+        # Add a frame for the search bar and button
+        search_frame = tk.Frame(self.master, bg=self.bg_color)
+        search_frame.pack(pady=10, padx=10, fill="x")
 
-        # Add a scrollable box in between the green bars
-        self.canvas = tk.Canvas(self.master, bg=self.bg_color)
-        self.scrollbar = ttk.Scrollbar(self.master, orient="vertical", command=self.canvas.yview)
-        self.scrollable_frame = ttk.Frame(self.canvas)
+        # Configure grid layout for responsive sizing
+        search_frame.grid_columnconfigure(0, weight=1)
+        search_frame.grid_columnconfigure(1, weight=0)
+
+        # Add a search bar
+        self.search_bar = ttk.Entry(search_frame, font=("Arial", 12))
+        self.search_bar.grid(row=0, column=0, sticky="ew", padx=(0, 5), ipady=8)  # Stretch horizontally and add padding
+
+        # Add a search button
+        self.search_button = tk.Button(search_frame, text="Search", bg=self.btn_color, font=("Arial", 12, "bold"),
+                                       relief="flat", fg="black", activebackground="#C0C0C0", command=self.perform_search)
+        self.search_button.grid(row=0, column=1, sticky="ew", ipadx=10, ipady=8)  # Stretch horizontally
+
+        # Create a frame to contain the scrollable section and its scrollbar
+        scrollable_section = tk.Frame(self.master, bg=self.bg_color)
+        scrollable_section.pack(padx=10, pady=(0, 10), fill="both", expand=True)  # Make it expand vertically
+
+        # Add a scrollable canvas inside the frame
+        self.scrollable_canvas = tk.Canvas(scrollable_section, bg=self.bg_color)
+        self.scrollable_frame = ttk.Frame(self.scrollable_canvas)
+        self.scrollable_canvas.create_window((0, 0), window=self.scrollable_frame, anchor="nw")
+        self.scrollable_canvas.pack(side="left", fill="both", expand=True)
+
+        # Add a scrollbar next to the canvas
+        self.scrollbar = ttk.Scrollbar(scrollable_section, orient="vertical", command=self.scrollable_canvas.yview)
+        self.scrollbar.pack(side="right", fill="y")
+        self.scrollable_canvas.configure(yscrollcommand=self.scrollbar.set)
+
+        # Add some sample content to the scrollable frame
+        for i in range(20):
+            tk.Label(self.scrollable_frame, text=f"Event {i + 1}", font=("Arial", 14), bg=self.bg_color).pack(pady=5, padx=10)
 
         self.scrollable_frame.bind(
             "<Configure>",
-            lambda e: self.canvas.configure(
-                scrollregion=self.canvas.bbox("all")
-            )
+            lambda e: self.scrollable_canvas.configure(scrollregion=self.scrollable_canvas.bbox("all"))
         )
 
-        self.canvas.create_window((0, 0), window=self.scrollable_frame, anchor="nw")
-        self.canvas.configure(yscrollcommand=self.scrollbar.set)
+        # Create a bottom bar frame
+        self.bottom_bar = tk.Frame(self.master, bg="#25A03D", height=90)
+        self.bottom_bar.pack(fill="x", side="bottom")
+        self.bottom_bar.pack_propagate(False)
 
-        self.canvas.pack(side="left", fill="both", expand=True, padx=(0, 15))
-        self.scrollbar.pack(side="right", fill="y")
+        # Add bottom bar icons
+        self.create_bottom_bar()
 
-        # Add sample content to the scrollable frame
-        for i in range(20):  # Add 20 labels as an example
-            label = tk.Label(self.scrollable_frame, text=f"Sample content {i+1}", bg=self.bg_color)
-            label.pack(pady=10)
+    def create_bottom_bar(self):
+        # Use grid layout for even distribution of bottom bar items
+        self.bottom_bar.grid_columnconfigure((0, 1, 2, 3), weight=1)
 
-        # Add a back button to the bottom green bar
-        # self.back_button = tk.Button(
-        #     self.green_bar_bottom,
-        #     text="Back",
-        #     bg=self.btn_color,
-        #     fg="white",
-        #     font=("Helvetica", 12),
-        #     relief="flat",
-        #     command=self.clear_and_back
-        # )
+        # Add icons and text labels
+        self.add_bottom_bar_item("appElements\\magnifyingIconMagnifying.webp", "Search", 0)
+        self.add_bottom_bar_item("appElements\\for_you_logo.png", "For You", 1)
+        self.add_bottom_bar_item("appElements\\ticketLogo.png", "My Events", 2)
+        self.add_bottom_bar_item("appElements\\profile_icon.webp", "Profile", 3)
 
-        # self.back_button.pack(pady=10, side="right")  # Use pack instead of place for simplicity
+    def add_bottom_bar_item(self, image_path, label_text, column):
+        icon = Image.open(image_path)
+        resized_icon = icon.resize((50, 50), Image.LANCZOS)
+        photo = ImageTk.PhotoImage(resized_icon)
 
-        
-        # Create a frame to hold the images and use grid layout for even distribution
-        self.image_frame = tk.Frame(self.green_bar_bottom, bg=self.btn_color)
-        self.image_frame.pack(fill="x", pady=10)
+        # Create container for each bottom bar item
+        item_container = tk.Frame(self.bottom_bar, bg="#25A03D")
+        item_container.grid(row=0, column=column, padx=20)
 
-        # Load and add an image to the bottom left of the green bar
-        magnifyingGlass = Image.open("appElements\\magnifyingIconMagnifying.webp")  # Replace with your image path
-        resized_magnifyingGlass_image = magnifyingGlass.resize((50, 50), Image.LANCZOS)  # Resize the image to 50x50 pixels
-        photo = ImageTk.PhotoImage(resized_magnifyingGlass_image)
-        self.image_label = tk.Label(self.image_frame, image=photo, bg=self.btn_color)
-        self.image_label.image = photo  # Keep a reference to avoid garbage collection
-        self.image_label.grid(row=0, column=0, padx=20)
+        image_label = tk.Label(item_container, image=photo, bg="#25A03D")
+        image_label.image = photo  # Keep a reference to avoid garbage collection
+        image_label.pack()
 
-        # Add an image next to the magnifying glass icon
-        tickets = Image.open("appElements\\for_you_logo.png")  # Replace with your image path
-        resized_for_you_image = tickets.resize((50, 50), Image.LANCZOS)
-        photo2 = ImageTk.PhotoImage(resized_for_you_image)
-        self.image_label2 = tk.Label(self.image_frame, image=photo2, bg=self.btn_color)
-        self.image_label2.image = photo2  # Keep a reference to avoid garbage collection
-        self.image_label2.grid(row=0, column=1, padx=20)
+        text_label = tk.Label(item_container, text=label_text, bg="#25A03D", fg="black")
+        text_label.pack()
 
-        # Add another image next to the previous icon
-        tickets_logo = Image.open("appElements\\ticketLogo.png")  # Replace with your image path
-        resized_tickets_image = tickets_logo.resize((50, 40), Image.LANCZOS)
-        photo3 = ImageTk.PhotoImage(resized_tickets_image)
-        self.image_label3 = tk.Label(self.image_frame, image=photo3, bg=self.btn_color)
-        self.image_label3.image = photo3  # Keep a reference to avoid garbage collection
-        self.image_label3.grid(row=0, column=2, padx=20)
-
-        # Add another image next to the previous icon
-        profile_icon = Image.open("appElements\\profile_icon.webp")  # Replace with your image path
-        resized_profile_icon_image = profile_icon.resize((50, 50), Image.LANCZOS)
-        photo4 = ImageTk.PhotoImage(resized_profile_icon_image)
-        self.image_label4 = tk.Label(self.image_frame, image=photo4, bg=self.btn_color)
-        self.image_label4.image = photo4  # Keep a reference to avoid garbage collection
-        self.image_label4.grid(row=0, column=3, padx=20)
+    def perform_search(self):
+        # Handle search button click
+        search_query = self.search_bar.get()
+        print(f"Search Query: {search_query}")
 
 
-    def clear_and_back(self):
-        # Clear the frame
-        for widget in self.master.winfo_children():
-            widget.destroy()
-        # Switch to the login page
-        self.master.show_screen1()
-
-
-# if __name__ == "__main__":
-#     root = tk.Tk()
-#     app = DicoverPage(master=root)
-#     app.pack(fill="both", expand=True)
-#     root.mainloop()
+# Run the app
+if __name__ == "__main__":
+    root = tk.Tk()
+    app = DiscoverPage(master=root)
+    app.pack(fill="both", expand=True)
+    root.mainloop()

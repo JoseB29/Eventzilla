@@ -186,7 +186,7 @@ class TicketmasterPrinter:
 
 # Main Execution
 if __name__ == "__main__":
-    apiCall = "https://app.ticketmaster.com/discovery/v2/events.json?classificationName=music&dmaId=324&apikey=9QIWlk2dq8iktJZ8FtiX9vGSmNyhN2gW"
+    apiCall = "https://app.ticketmaster.com/discovery/v2/events.json?classificationName=sports&dmaId=324&apikey=9QIWlk2dq8iktJZ8FtiX9vGSmNyhN2gW"
     image_folder = "event_images"  # Directory to save images
     
     # Create the image folder if it doesn't exist
