@@ -10,7 +10,7 @@ class ConfirmEmailScreen(tk.Frame):
 
     def create_widgets(self):
         self.master.title("Confirm Email")
-        self.master.geometry("300x200")
+        self.master.geometry("390x934")
 
         self.label = tk.Label(self, text="Enter your one-time code:")
         self.label.pack(pady=10)

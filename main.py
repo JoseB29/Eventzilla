@@ -5,6 +5,7 @@ from confirmEmail import ConfirmEmailScreen
 from discoverPage import DiscoverPage
 from moodCheck import MoodCheckScreen
 from Survey import QuestionnaireApp
+from searchPage import SearchPage
 
 class App(tk.Tk):
     def __init__(self):
@@ -77,6 +78,14 @@ class App(tk.Tk):
         self.current_screen = DiscoverPage(self)  
         self.current_screen.pack(fill="both", expand=True)
         print("Showing DiscoverPage screen")
+
+    def show_search_page(self):
+        if self.current_screen is not None:
+            print("Destroying current screen")
+            self.current_screen.destroy()
+        self.current_screen = SearchPage(self)
+        self.current_screen.pack(fill="both", expand=True)
+        print("Showing SearchPage screen")
 
 if __name__ == "__main__":
     app = App()

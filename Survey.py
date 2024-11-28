@@ -9,7 +9,7 @@ class QuestionnaireApp(tk.Frame):
 
     def create_widgets(self):
         self.master.title("Event Preferences Questionnaire")
-        self.master.geometry("390x844")  # Screen size for an iPhone
+        self.master.geometry("390x934")  # Screen size for an iPhone
         self.current_question = 0
         self.answers = {}
 

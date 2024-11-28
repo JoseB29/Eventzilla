@@ -11,55 +11,53 @@ class DiscoverPage(tk.Frame):
 
     def create_widgets(self):
         self.master.title("Discover")
-        self.master.geometry("390x844")  # iPhone size
+        self.master.geometry("390x934")  # iPhone size
 
         # Styling
         self.bg_color = "#F5F5F5"
         self.btn_color = "#D3D3D3"  # Light gray for button
         self.master.configure(bg=self.bg_color)
 
+        total_height = 844
+        top_bar_height = 90
+        bottom_bar_height = 90
+        scrollable_height = total_height - (top_bar_height + bottom_bar_height)
+
         # Add a green bar at the top of the screen
-        self.green_bar = tk.Frame(self.master, bg="#25A03D", height=90)
+        self.green_bar = tk.Frame(self.master, bg="#25A03D", height=top_bar_height)
         self.green_bar.pack(fill="x", side="top")
         self.green_bar.pack_propagate(False)
 
-        # Add a title at the center of the top green bar
         self.title = tk.Label(self.green_bar, text="Discover", font=("Odibee Sans", 24, "bold"), fg="white", bg="#25A03D")
         self.title.pack(expand=True)
 
-        # Add a frame for the search bar and button
+        # Search Section
         search_frame = tk.Frame(self.master, bg=self.bg_color)
         search_frame.pack(pady=10, padx=10, fill="x")
 
-        # Configure grid layout for responsive sizing
         search_frame.grid_columnconfigure(0, weight=1)
         search_frame.grid_columnconfigure(1, weight=0)
 
-        # Add a search bar
         self.search_bar = ttk.Entry(search_frame, font=("Arial", 12))
-        self.search_bar.grid(row=0, column=0, sticky="ew", padx=(0, 5), ipady=8)  # Stretch horizontally and add padding
+        self.search_bar.grid(row=0, column=0, sticky="ew", padx=(0, 5), ipady=8)
 
-        # Add a search button
         self.search_button = tk.Button(search_frame, text="Search", bg=self.btn_color, font=("Arial", 12, "bold"),
                                        relief="flat", fg="black", activebackground="#C0C0C0", command=self.perform_search)
-        self.search_button.grid(row=0, column=1, sticky="ew", ipadx=10, ipady=8)  # Stretch horizontally
+        self.search_button.grid(row=0, column=1, sticky="ew", ipadx=10, ipady=8)
 
-        # Create a frame to contain the scrollable section and its scrollbar
-        scrollable_section = tk.Frame(self.master, bg=self.bg_color)
-        scrollable_section.pack(padx=10, pady=(0, 10), fill="both", expand=True)  # Make it expand vertically
+        # Scrollable Section (takes up the space between top and bottom bars)
+        scrollable_section = tk.Frame(self.master, bg=self.bg_color, height=scrollable_height)
+        scrollable_section.pack(fill="both", expand=True)
 
-        # Add a scrollable canvas inside the frame
-        self.scrollable_canvas = tk.Canvas(scrollable_section, bg=self.bg_color)
+        self.scrollable_canvas = tk.Canvas(scrollable_section, bg=self.bg_color, height=scrollable_height)
         self.scrollable_frame = ttk.Frame(self.scrollable_canvas)
         self.scrollable_canvas.create_window((0, 0), window=self.scrollable_frame, anchor="nw")
         self.scrollable_canvas.pack(side="left", fill="both", expand=True)
 
-        # Add a scrollbar next to the canvas
         self.scrollbar = ttk.Scrollbar(scrollable_section, orient="vertical", command=self.scrollable_canvas.yview)
         self.scrollbar.pack(side="right", fill="y")
         self.scrollable_canvas.configure(yscrollcommand=self.scrollbar.set)
 
-        # Add some sample content to the scrollable frame
         for i in range(20):
             tk.Label(self.scrollable_frame, text=f"Event {i + 1}", font=("Arial", 14), bg=self.bg_color).pack(pady=5, padx=10)
 
@@ -68,12 +66,12 @@ class DiscoverPage(tk.Frame):
             lambda e: self.scrollable_canvas.configure(scrollregion=self.scrollable_canvas.bbox("all"))
         )
 
-        # Create a bottom bar frame
-        self.bottom_bar = tk.Frame(self.master, bg="#25A03D", height=90)
-        self.bottom_bar.pack(fill="x", side="bottom")
+        # Bottom Bar (green bar at the bottom)
+        self.bottom_bar = tk.Frame(self.master, bg="#25A03D", height=bottom_bar_height)
+        self.bottom_bar.pack(side="bottom", fill="x")  # Positioned at the bottom
         self.bottom_bar.pack_propagate(False)
 
-        # Add bottom bar icons
+        # Add bottom bar content
         self.create_bottom_bar()
 
     def create_bottom_bar(self):
@@ -106,6 +104,13 @@ class DiscoverPage(tk.Frame):
         # Handle search button click
         search_query = self.search_bar.get()
         print(f"Search Query: {search_query}")
+
+        # Clear everything in the page
+        for widget in self.master.winfo_children():
+            widget.destroy()
+
+        #go to the search page
+        self.master.show_search_page()
 
 
 # Run the app

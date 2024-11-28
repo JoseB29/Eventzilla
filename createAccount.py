@@ -16,7 +16,7 @@ class CreateAccount(tk.Frame):
 
     def create_widgets(self):
         self.master.title("Create Account")
-        self.master.geometry("390x844")  # iPhone size
+        self.master.geometry("390x934")  # iPhone size
 
         # Styling
         self.bg_color = "#F5F5F5"
