@@ -8,7 +8,7 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 import random
 import string
-
+ 
 class CreateAccount(tk.Frame):
     def __init__(self, master=None):
         super().__init__(master)

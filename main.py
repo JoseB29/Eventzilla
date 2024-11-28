@@ -69,7 +69,7 @@ class App(tk.Tk):
         self.current_screen = MoodCheckScreen(self)
         self.current_screen.pack(fill="both", expand=True)
         print("Showing MoodCheck screen")
-
+ 
     # Function to show the discover page
     def show_discover_page(self):
         if self.current_screen is not None:

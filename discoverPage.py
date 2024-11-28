@@ -99,7 +99,7 @@ class DiscoverPage(tk.Frame):
 
         text_label = tk.Label(item_container, text=label_text, bg="#25A03D", fg="black")
         text_label.pack()
-
+ 
     def perform_search(self):
         # Handle search button click
         search_query = self.search_bar.get()

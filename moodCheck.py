@@ -5,7 +5,7 @@ class MoodCheckScreen(tk.Frame):
         super().__init__(master)
         self.master = master
         self.create_widgets()
-
+ 
     def create_widgets(self):
         # Title Bar
         title_frame = tk.Frame(self, bg="green")
