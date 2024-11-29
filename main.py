@@ -1,133 +1,92 @@
-import os  # To list files in the folder
 import tkinter as tk
-from tkinter import ttk
-from PIL import Image, ImageTk
+from loginMenu import LoginApp
+from createAccount import CreateAccount
+from confirmEmail import ConfirmEmailScreen
+from discoverPage import DiscoverPage
+from moodCheck import MoodCheckScreen
+from Survey import QuestionnaireApp
+from searchPage import SearchPage
 
-class SearchPage(tk.Frame):
-    def __init__(self, master):
-        super().__init__(master)
-        self.master = master
-        self.create_widgets()
+class App(tk.Tk):
+    def __init__(self):
+        super().__init__()
+        self.title("EventZilla")
+        self.current_screen = None
+        self.show_screen1()
 
-    def create_widgets(self):
-        self.master.title("Search")
-        self.master.geometry("390x934")  # iPhone size
+    # Function to show the login screen
+    def show_screen1(self):
+        if self.current_screen is not None:
+            print("Destroying current screen")
+            self.current_screen.destroy()
+        self.current_screen = LoginApp(self)
+        self.current_screen.pack(fill='both', expand=True)
+        print("Showing LoginApp screen")
 
-        # Styling
-        self.bg_color = "#F5F5F5"
-        self.btn_color = "#D3D3D3"  # Light gray for button
-        self.master.configure(bg=self.bg_color)
+    # Function to show the discover page
+    def show_screen2(self):
+        if self.current_screen is not None:
+            print("Destroying current screen")
+            self.current_screen.destroy()
+        #self.current_screen = DiscoverPage(self)
+        self.current_screen = MoodCheckScreen(self)
+        self.current_screen.pack(fill='both', expand=True)
+        #print("Showing DiscoverPage screen")
+        print("Showing MoodCheck screen")
 
-        total_height = 844
-        top_bar_height = 90
-        bottom_bar_height = 90
-        scrollable_height = total_height - (top_bar_height + bottom_bar_height)
+    # Function to show the create account screen
+    def show_screen3(self):
+        if self.current_screen is not None:
+            print("Destroying current screen")
+            self.current_screen.destroy()
+        self.current_screen = CreateAccount(self)
+        self.current_screen.pack(fill='both', expand=True)
+        print("Showing CreateAccount screen")
 
-        # Add a green bar at the top of the screen
-        self.green_bar = tk.Frame(self.master, bg="#25A03D", height=top_bar_height)
-        self.green_bar.pack(fill="x", side="top")
-        self.green_bar.pack_propagate(False)
+    # Function to show the confirm email screen
+    def show_screen4(self):
+        if self.current_screen is not None:
+            print("Destroying current screen")
+            self.current_screen.destroy()
+        self.current_screen = ConfirmEmailScreen(self)
+        self.current_screen.pack(fill='both', expand=True)
+        print("Showing ConfirmEmailScreen screen")
 
-        self.title = tk.Label(self.green_bar, text="Search", font=("Odibee Sans", 24, "bold"), fg="white", bg="#25A03D")
-        self.title.pack(expand=True)
+    # Function to show the survey screen
+    def show_screen5(self):
+        if self.current_screen is not None:
+            print("Destroying current screen")
+            self.current_screen.destroy()
+        self.current_screen = QuestionnaireApp(self)
+        self.current_screen.pack(fill="both", expand=True)
+        print("Showing Survey screen")
+    
+    # Function to show the mood check screen
+    def show_mood_check_screen(self):
+        if self.current_screen is not None:
+            print("Destroying current screen")
+            self.current_screen.destroy()
+        self.current_screen = MoodCheckScreen(self)
+        self.current_screen.pack(fill="both", expand=True)
+        print("Showing MoodCheck screen")
 
-        # Search Section
-        search_frame = tk.Frame(self.master, bg=self.bg_color)
-        search_frame.pack(pady=10, padx=10, fill="x")
+    # Function to show the discover page
+    def show_discover_page(self):
+        if self.current_screen is not None:
+            print("Destroying current screen")
+            self.current_screen.destroy()
+        self.current_screen = DiscoverPage(self)  
+        self.current_screen.pack(fill="both", expand=True)
+        print("Showing DiscoverPage screen")
 
-        search_frame.grid_columnconfigure(0, weight=1)
-        search_frame.grid_columnconfigure(1, weight=0)
+    def show_search_page(self):
+        if self.current_screen is not None:
+            print("Destroying current screen")
+            self.current_screen.destroy()
+        self.current_screen = SearchPage(self)
+        self.current_screen.pack(fill="both", expand=True)
+        print("Showing SearchPage screen")
 
-        self.search_bar = ttk.Entry(search_frame, font=("Arial", 12))
-        self.search_bar.grid(row=0, column=0, sticky="ew", padx=(0, 5), ipady=8)
-
-        self.search_button = tk.Button(search_frame, text="Search", bg=self.btn_color, font=("Arial", 12, "bold"),
-                                       relief="flat", fg="black", activebackground="#C0C0C0", command=self.perform_search)
-        self.search_button.grid(row=0, column=1, sticky="ew", ipadx=10, ipady=8)
-
-        # Scrollable Section (takes up the space between top and bottom bars)
-        scrollable_section = tk.Frame(self.master, bg=self.bg_color, height=scrollable_height)
-        scrollable_section.pack(fill="both", expand=True)
-
-        self.scrollable_canvas = tk.Canvas(scrollable_section, bg=self.bg_color, height=scrollable_height)
-        self.scrollable_frame = ttk.Frame(self.scrollable_canvas)
-        self.scrollable_canvas.create_window((0, 0), window=self.scrollable_frame, anchor="nw")
-        self.scrollable_canvas.pack(side="left", fill="both", expand=True)
-
-        self.scrollbar = ttk.Scrollbar(scrollable_section, orient="vertical", command=self.scrollable_canvas.yview)
-        self.scrollbar.pack(side="right", fill="y")
-        self.scrollable_canvas.configure(yscrollcommand=self.scrollbar.set)
-
-        self.scrollable_frame.bind(
-            "<Configure>",
-            lambda e: self.scrollable_canvas.configure(scrollregion=self.scrollable_canvas.bbox("all"))
-        )
-
-        # Load images from event_images folder
-        self.load_images()
-
-        # Bottom Bar (green bar at the bottom)
-        self.bottom_bar = tk.Frame(self.master, bg="#25A03D", height=bottom_bar_height)
-        self.bottom_bar.pack(side="bottom", fill="x")  # Positioned at the bottom
-        self.bottom_bar.pack_propagate(False)
-
-        # Add bottom bar content
-        self.create_bottom_bar()
-
-    def load_images(self):
-        # Define the path to your images folder
-        event_images_path = 'event_images'
-
-        # List all image files in the event_images directory
-        for image_file in os.listdir(event_images_path):
-            image_path = os.path.join(event_images_path, image_file)
-
-            if os.path.isfile(image_path) and image_file.lower().endswith(('.png', '.jpg', '.jpeg')):
-                # Open and resize the image
-                image = Image.open(image_path)
-                resized_image = image.resize((350, 200), Image.LANCZOS)
-                photo = ImageTk.PhotoImage(resized_image)
-
-                # Create an image label and add it to the scrollable frame
-                image_label = tk.Label(self.scrollable_frame, image=photo)
-                image_label.image = photo  # Keep a reference to avoid garbage collection
-                image_label.pack(pady=10)
-
-    def create_bottom_bar(self):
-        # Use grid layout for even distribution of bottom bar items
-        self.bottom_bar.grid_columnconfigure((0, 1, 2, 3), weight=1)
-
-        # Add icons and text labels
-        self.add_bottom_bar_item("appElements\\magnifyingIconMagnifying.webp", "Search", 0)
-        self.add_bottom_bar_item("appElements\\for_you_logo.png", "For You", 1)
-        self.add_bottom_bar_item("appElements\\ticketLogo.png", "My Events", 2)
-        self.add_bottom_bar_item("appElements\\profile_icon.webp", "Profile", 3)
-
-    def add_bottom_bar_item(self, image_path, label_text, column):
-        icon = Image.open(image_path)
-        resized_icon = icon.resize((50, 50), Image.LANCZOS)
-        photo = ImageTk.PhotoImage(resized_icon)
-
-        # Create container for each bottom bar item
-        item_container = tk.Frame(self.bottom_bar, bg="#25A03D")
-        item_container.grid(row=0, column=column, padx=20)
-
-        image_label = tk.Label(item_container, image=photo, bg="#25A03D")
-        image_label.image = photo  # Keep a reference to avoid garbage collection
-        image_label.pack()
-
-        text_label = tk.Label(item_container, text=label_text, bg="#25A03D", fg="black")
-        text_label.pack()
-
-    def perform_search(self):
-        # Handle search button click
-        search_query = self.search_bar.get()
-        print(f"Search Query: {search_query}")
-
-        # Clear everything in the page
-        for widget in self.master.winfo_children():
-            widget.destroy()
-
-        #go to the search page
-        self.master.show_search_page()
-
+if __name__ == "__main__":
+    app = App()
+    app.mainloop()

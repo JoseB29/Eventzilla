@@ -174,40 +174,24 @@ def print_all_event_details(events, image_paths):
     else:
         print("No events available.")
 
+def combine_api_call(typeOfEvent, areaOfSearch, image_folder):
+    """
+    Combine the API call with the parameters to fetch events.
+    """
+
+    image_folder = "searchResult"  # Directory to save images
+    apiCall = "https://app.ticketmaster.com/discovery/v2/events.json?" #base api call
+    areaOfSearch = "&dmaId=249" #right now we lock it to the Chicago area
+    apiKey = "&apikey=9QIWlk2dq8iktJZ8FtiX9vGSmNyhN2gW" #api key
+
+    api_url = apiCall + "classificationName=" + typeOfEvent + areaOfSearch + apiKey #combine the api call
 
 
-def makeApiCall(typeOfEvent, areaOfSearch, apiKey):
-    apiCall = f"https://app.ticketmaster.com/discovery/v2/events.json?{typeOfEvent}{areaOfSearch}{apiKey}"
-    response = requests.get(apiCall)
-    if response.status_code == 200:
-        data = response.json()
-        return data
-    else:
-        print(f"API call failed with status code {response.status_code}")
-        return None
-
+    return fetch_events(api_url, image_folder)
 
 # Main Execution
 if __name__ == "__main__":
-    apiCall = "https://app.ticketmaster.com/discovery/v2/events.json?"
-    typeOfEvent = "classificationName=sports"
-    areaOfSearch = "&dmaId=249" #right now we lock it to the Chicago area
-    apiKey = "&apikey=9QIWlk2dq8iktJZ8FtiX9vGSmNyhN2gW"
-    image_folder = "searchResult"  # Directory to save images
-    
-    # Create the image folder if it doesn't exist
-    if not os.path.exists(image_folder):
-        os.makedirs(image_folder)
 
-    # Create an instance of the TicketmasterAPI class and fetch events
-    ticketmaster_api = TicketmasterAPI(apiCall, image_folder)
-    ticketmaster_api.fetch_events()
 
-    # Create an instance of the TicketmasterPrinter class
-    ticketmaster_printer = TicketmasterPrinter(
-        ticketmaster_api.get_events(),  # List of events
-        ticketmaster_api.image_paths   # Dictionary of image paths
-    )
-
-    # Print all event details
-    ticketmaster_printer.print_all_event_details()
+    dic, image_paths = combine_api_call("music", "&dmaId=249", "searchResult")
+    print_all_event_details(dic, image_paths)
