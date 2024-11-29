@@ -9,6 +9,7 @@ class SearchPage(tk.Frame):
         self.master = master
         self.create_widgets()
 
+
     def create_widgets(self):
         self.master.title("Search")
         self.master.geometry("390x934")  # iPhone size

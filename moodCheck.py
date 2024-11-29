@@ -71,6 +71,7 @@ class MoodCheckScreen(tk.Frame):
         )
         checkbox.grid(row=0, column=0, sticky="w")
 
+
         tk.Label(
             frame,
             text=f"Moods: {description}",

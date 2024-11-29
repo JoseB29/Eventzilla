@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import messagebox
 import json
  
+ 
 class ConfirmEmailScreen(tk.Frame):
     def __init__(self, master=None):
         super().__init__(master)

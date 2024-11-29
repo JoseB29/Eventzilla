@@ -228,6 +228,7 @@ class QuestionnaireApp(tk.Frame):
         self.current_question += 1
         self.show_question()
 
+
     def finish(self):
         for widget in self.container.winfo_children():
             widget.destroy()
