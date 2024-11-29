@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import ttk
 from PIL import Image, ImageTk
 
-
+ 
 class DiscoverPage(tk.Frame):
     def __init__(self, master):
         super().__init__(master)

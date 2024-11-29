@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 from PIL import Image, ImageTk
-
+ 
 #create a class called DiscoverPage
 class SearchPage(tk.Frame):
     def __init__(self, master):

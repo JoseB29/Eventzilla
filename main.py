@@ -6,7 +6,7 @@ from discoverPage import DiscoverPage
 from moodCheck import MoodCheckScreen
 from Survey import QuestionnaireApp
 from searchPage import SearchPage
-
+ 
 class App(tk.Tk):
     def __init__(self):
         super().__init__()
