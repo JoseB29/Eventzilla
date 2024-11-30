@@ -7,12 +7,13 @@ from moodCheck import MoodCheckScreen
 from Survey import QuestionnaireApp
 from searchPage import SearchPage
  
- 
+
 class App(tk.Tk):
     def __init__(self):
         super().__init__()
         self.title("EventZilla")
         self.current_screen = None
+        self.current_page = None  # Initialize current_page
         self.show_screen1()
 
     # Function to show the login screen
@@ -80,13 +81,15 @@ class App(tk.Tk):
         self.current_screen.pack(fill="both", expand=True)
         print("Showing DiscoverPage screen")
 
-    def show_search_page(self):
-        if self.current_screen is not None:
-            print("Destroying current screen")
-            self.current_screen.destroy()
-        self.current_screen = SearchPage(self)
-        self.current_screen.pack(fill="both", expand=True)
-        print("Showing SearchPage screen")
+    def switch_to_search_page(self, search_query):
+    # Destroy the current page completely
+        for widget in self.winfo_children():
+            widget.destroy()
+
+        # Add the SearchPage
+        self.current_page = SearchPage(self, search_query)
+        self.current_page.pack(fill="both", expand=True) 
+
 
 if __name__ == "__main__":
     app = App()

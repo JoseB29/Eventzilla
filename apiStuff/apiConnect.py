@@ -22,7 +22,7 @@ def fetch_events(api_url, image_folder):
         save_images(events, image_folder, image_paths)  # Save the images for each event
     else:
         print(f"API call failed with status code {response.status_code}")
-        return -1
+        return {}, []
 
     return events, image_paths
 
@@ -174,19 +174,59 @@ def print_all_event_details(events, image_paths):
     else:
         print("No events available.")
 
+#Create funtions that returns the event name, date, time, location, and image path
+def get_event_basic_details(event_list, image_paths):
+    """
+    Get the basic details of an event: name, date, time, location, and image path.
+    """
+    eventList = []
+
+    # Iterate over each event in the list
+    for event in event_list:
+
+        # Extract event details
+        name = event.get('name', 'N/A')
+        event_id = event.get('id', 'N/A')
+        image_path = image_paths.get(event_id, 'Image path not available')
+
+        # Extract event date and time
+        dates = event.get('dates', {})
+        local_date = dates.get('start', {}).get('localDate', 'N/A')
+        local_time = dates.get('start', {}).get('localTime', 'N/A')
+
+        # Venue details
+        venue = event.get('_embedded', {}).get('venues', [{}])[0]
+        venue_name = venue.get('name', 'N/A')
+        venue_city = venue.get('city', {}).get('name', 'N/A')
+        venue_state = venue.get('state', {}).get('stateCode', 'N/A')
+
+        # Put the event details into a dictionary
+        event_details = {
+            "name": name,
+            "local_date": local_date,
+            "local_time": local_time,
+            "venue_name": venue_name,
+            "venue_city": venue_city,
+            "venue_state": venue_state,
+            "image_path": image_path
+        }
+        eventList.append(event_details)
+
+    return eventList
+
+
 def combine_api_call(typeOfEvent, areaOfSearch, image_folder):
     """
     Combine the API call with the parameters to fetch events.
     """
+    # make the tyorOfEvent lowercase
+    typeOfEvent = typeOfEvent.lower()
 
     image_folder = "searchResult"  # Directory to save images
     apiCall = "https://app.ticketmaster.com/discovery/v2/events.json?" #base api call
     areaOfSearch = "&dmaId=249" #right now we lock it to the Chicago area
     apiKey = "&apikey=9QIWlk2dq8iktJZ8FtiX9vGSmNyhN2gW" #api key
-
     api_url = apiCall + "classificationName=" + typeOfEvent + areaOfSearch + apiKey #combine the api call
-
-
     return fetch_events(api_url, image_folder)
 
 # Main Execution
@@ -194,4 +234,6 @@ if __name__ == "__main__":
 
 
     dic, image_paths = combine_api_call("music", "&dmaId=249", "searchResult")
-    print_all_event_details(dic, image_paths)
+    # print_all_event_details(dic, image_paths)
+
+    print(f"Number of info items: {dic}")
