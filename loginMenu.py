@@ -1,3 +1,4 @@
+import json
 import tkinter as tk
 from tkinter import ttk
 
@@ -47,9 +48,9 @@ class LoginApp(tk.Frame):
             fg="white",
             font=("Helvetica", 12),
             relief="flat",
-            command=lambda: [self.master.show_screen2()]
+            # command=lambda: [self.master.show_screen2()]
 
-            # command=self.login #
+            command=self.login 
         )
         self.login_button.pack(fill="x", pady=(20, 5))
 
@@ -75,6 +76,29 @@ class LoginApp(tk.Frame):
         # Add more widgets here as needed
 
     def login(self):
+        email = self.email_entry.get()
+        password = self.password_entry.get()
+
+        with open("users.json", "r") as f:
+            users = json.load(f)
+            user = next((u for u in users if u["email"] == email), None)
+
+            if user is None:
+                if hasattr(self, 'error_label'):
+                    self.error_label.destroy()
+                self.error_label = tk.Label(self.frame, text="Email incorrect", font=("Helvetica", 12), fg="red", bg="white")
+                self.error_label.pack(fill="x", pady=(5, 10))
+                return
+            
+            if password != user["password"]:
+                if hasattr(self, 'error_label'):
+                    self.error_label.destroy()
+                self.error_label = tk.Label(self.frame, text="Password incorrect", font=("Helvetica", 12), fg="red", bg="white")
+                self.error_label.pack(fill="x", pady=(5, 10))
+                return
+            
+            print("Login pressed")
+
         print("Login pressed")
         self.master.show_mood_check_screen()
 
