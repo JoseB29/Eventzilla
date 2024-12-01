@@ -6,6 +6,9 @@ from discoverPage import DiscoverPage
 from moodCheck import MoodCheckScreen
 from Survey import QuestionnaireApp
 from searchPage import SearchPage
+from myEventsPage import MyEventsPage
+from profilePage import ProfilePage
+from forYouPage import ForYouPage
  
 
 class App(tk.Tk):
@@ -89,6 +92,27 @@ class App(tk.Tk):
         # Add the SearchPage
         self.current_page = SearchPage(self, search_query)
         self.current_page.pack(fill="both", expand=True) 
+
+    def switch_to_my_events_page(self):
+        for widget in self.winfo_children():
+            widget.destroy()
+
+        self.current_page = MyEventsPage(self)
+        self.current_page.pack(fill="both", expand=True)
+
+    def switch_to_profile_page(self):
+        for widget in self.winfo_children():
+            widget.destroy()
+
+        self.current_page = ProfilePage(self)
+        self.current_page.pack(fill="both", expand=True)
+
+    def switch_to_for_you_page(self):
+        for widget in self.winfo_children():
+            widget.destroy()
+
+        self.current_page = ForYouPage(self)
+        self.current_page.pack(fill="both", expand=True)
 
 
 if __name__ == "__main__":

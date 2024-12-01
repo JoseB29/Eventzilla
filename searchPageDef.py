@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import ttk
 from PIL import Image, ImageTk
 
-class ForYouPage(tk.Frame):
+class DefSearchPage(tk.Frame):
     def __init__(self, master):
         super().__init__(master)
         self.master = master
@@ -61,10 +61,9 @@ class ForYouPage(tk.Frame):
         self.scrollable_canvas.configure(yscrollcommand=self.scrollbar.set)
 
 
-        #sample filling of the scrollable frame
-        for i in range(20):
-            tk.Label(self.scrollable_frame, text=f"Event {i + 1}", font=("Arial", 14), bg=self.bg_color).pack(pady=5, padx=10)
-
+        #In the middle adds text that says "Enter Something On The Search Bar To Get Started"
+        tk.Label(self.scrollable_frame, text="Enter Something On The Search Bar", font=("Arial", 14), bg=self.bg_color).pack(pady=5, padx=10)
+        tk.Label(self.scrollable_frame, text="To Get Started", font=("Arial", 14), bg=self.bg_color).pack(pady=5, padx=10)
         self.scrollable_frame.bind(
             "<Configure>",
             lambda e: self.scrollable_canvas.configure(scrollregion=self.scrollable_canvas.bbox("all"))
@@ -105,8 +104,8 @@ class ForYouPage(tk.Frame):
 
 
 # Run the app
-# if __name__ == "__main__":
-#     root = tk.Tk()
-#     app = ForYouPage(master=root)
-#     app.pack(fill="both", expand=True)
-#     root.mainloop()
+if __name__ == "__main__":
+    root = tk.Tk()
+    app = DefSearchPage(master=root)
+    app.pack(fill="both", expand=True)
+    root.mainloop()
