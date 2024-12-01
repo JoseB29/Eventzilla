@@ -93,11 +93,9 @@ class SettingsScreen(tk.Frame):
         print("Settings closed")  
         self.master.quit()   
 
-"""
-if __name__ == "__main__":
-    root = tk.Tk()
+# if __name__ == "__main__":
+#     root = tk.Tk()
 
-    settings_screen = SettingsScreen(master=root)   
-    settings_screen.pack(fill="both", expand=True)   
-    root.mainloop()
-"""
+#     settings_screen = SettingsScreen(master=root)   
+#     settings_screen.pack(fill="both", expand=True)   
+#     root.mainloop()

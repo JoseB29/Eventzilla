@@ -69,53 +69,59 @@ class SearchPage(tk.Frame):
         self.scrollbar.pack(side="right", fill="y")
         self.scrollable_canvas.configure(yscrollcommand=self.scrollbar.set)
 
-        #make a call to the apiConnect file and make a call\
-        info, image_paths = combine_api_call(self.search_results, "&dmaId=249", "searchResult")
-        
-      
-        print(f"Number of info items: {len(info)}")
-        print(f"Number of image paths: {len(image_paths)}")
-        #now we check if the search was successful
-        if len(info) == 0 or len(image_paths) == 0:
+        #if nothing was inputted into the search bar, we just display a message saying no events found
+        if self.search_results == "":
             tk.Label(self.scrollable_frame, text="No events found", font=("Arial", 14), bg=self.bg_color).pack(pady=5, padx=10)
-
+            return
         else:
-            #now we call the function that gets us the most important details of the event
-            events = get_event_basic_details(info, image_paths)
 
-            #now we set the event details to the screen scrollable frame
-            for event in events:
-                event_frame = tk.Frame(self.scrollable_frame, bg=self.bg_color)
-                event_frame.pack(fill="x", pady=5, padx=10)
+            #make a call to the apiConnect file and make a call\
+            info, image_paths = combine_api_call(self.search_results, "&dmaId=249", "searchResult")
+            
+        
+            print(f"Number of info items: {len(info)}")
+            print(f"Number of image paths: {len(image_paths)}")
+            #now we check if the search was successful
+            if len(info) == 0 or len(image_paths) == 0:
+                tk.Label(self.scrollable_frame, text="No events found", font=("Arial", 14), bg=self.bg_color).pack(pady=5, padx=10)
 
-                image = Image.open(event["image_path"])
-                resized_image = image.resize((100, 100), Image.LANCZOS)
-                photo = ImageTk.PhotoImage(resized_image)
+            else:
+                #now we call the function that gets us the most important details of the event
+                events = get_event_basic_details(info, image_paths)
 
-                image_label = tk.Label(event_frame, image=photo, bg=self.bg_color)
-                image_label.image = photo
-                image_label.pack(side="left", padx=(0, 10))
+                #now we set the event details to the screen scrollable frame
+                for event in events:
+                    event_frame = tk.Frame(self.scrollable_frame, bg=self.bg_color)
+                    event_frame.pack(fill="x", pady=5, padx=10)
 
-                event_info = tk.Frame(event_frame, bg=self.bg_color)
-                event_info.pack(fill="both", expand=True)
+                    image = Image.open(event["image_path"])
+                    resized_image = image.resize((100, 100), Image.LANCZOS)
+                    photo = ImageTk.PhotoImage(resized_image)
 
-                tk.Label(event_info, text=event["name"], font=("Arial", 14), bg=self.bg_color).pack(anchor="w")
-                tk.Label(event_info, text=f"Date: {event['local_date']}", font=("Arial", 12), bg=self.bg_color).pack(anchor="w")
-                tk.Label(event_info, text=f"Time: {event['local_time']}", font=("Arial", 12), bg=self.bg_color).pack(anchor="w")
-                tk.Label(event_info, text=f"Location: {event['venue_name']}, {event['venue_city']}, {event['venue_state']}", font=("Arial", 12), bg=self.bg_color).pack(anchor="w")
+                    image_label = tk.Label(event_frame, image=photo, bg=self.bg_color)
+                    image_label.image = photo
+                    image_label.pack(side="left", padx=(0, 10))
+
+                    event_info = tk.Frame(event_frame, bg=self.bg_color)
+                    event_info.pack(fill="both", expand=True)
+
+                    tk.Label(event_info, text=event["name"], font=("Arial", 14), bg=self.bg_color).pack(anchor="w")
+                    tk.Label(event_info, text=f"Date: {event['local_date']}", font=("Arial", 12), bg=self.bg_color).pack(anchor="w")
+                    tk.Label(event_info, text=f"Time: {event['local_time']}", font=("Arial", 12), bg=self.bg_color).pack(anchor="w")
+                    tk.Label(event_info, text=f"Location: {event['venue_name']}, {event['venue_city']}, {event['venue_state']}", font=("Arial", 12), bg=self.bg_color).pack(anchor="w")
 
 
-        self.scrollable_frame.bind(
-            "<Configure>",
-            lambda e: self.scrollable_canvas.configure(scrollregion=self.scrollable_canvas.bbox("all"))
-        )
+            self.scrollable_frame.bind(
+                "<Configure>",
+                lambda e: self.scrollable_canvas.configure(scrollregion=self.scrollable_canvas.bbox("all"))
+            )
 
-        # Bottom Bar
-        self.bottom_bar = tk.Frame(self, bg="#25A03D", height=bottom_bar_height)
-        self.bottom_bar.pack(side="bottom", fill="x")
-        self.bottom_bar.pack_propagate(False)
+            # Bottom Bar
+            self.bottom_bar = tk.Frame(self, bg="#25A03D", height=bottom_bar_height)
+            self.bottom_bar.pack(side="bottom", fill="x")
+            self.bottom_bar.pack_propagate(False)
 
-        self.create_bottom_bar()
+            self.create_bottom_bar()
 
     def create_bottom_bar(self):
         self.bottom_bar.grid_columnconfigure((0, 1, 2, 3), weight=1)

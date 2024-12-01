@@ -1,3 +1,20 @@
 [
-    
+    {
+        "username": "jbola6",
+        "dob": "2002-12-19",
+        "email": "jbola6@uic.edu",
+        "password": "123"
+    },
+    {
+        "username": "jbola6",
+        "dob": "2002-12-29",
+        "email": "jbola6@uic.edu",
+        "password": "123"
+    },
+    {
+        "username": "jose",
+        "dob": "2002-12-29",
+        "email": "josebolanos1229@gmail.com",
+        "password": "123"
+    }
 ]
