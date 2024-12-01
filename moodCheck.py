@@ -8,6 +8,7 @@ class MoodCheckScreen(tk.Frame):
  
     def create_widgets(self):
         # Title Bar
+        self.master.title("Mood Check")
         title_frame = tk.Frame(self, bg="green")
         title_frame.pack(fill="x")
 
@@ -88,3 +89,4 @@ class MoodCheckScreen(tk.Frame):
         
         # Switch to the DiscoverPage after submission
         self.master.show_discover_page()
+        
