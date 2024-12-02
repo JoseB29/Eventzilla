@@ -89,7 +89,7 @@ class SettingsScreen(tk.Frame):
 
     # Opens the survey screen  
     def open_survey(self):
-        self.current_screen = QuestionnaireApp(master=self.master)   
+        self.current_screen = QuestionnaireApp(master=self.master, start_question=0)   
         self.current_screen.pack(fill="both", expand=True)
     
     # Opens the notification survey screen
