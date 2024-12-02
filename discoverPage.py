@@ -78,10 +78,10 @@ class DiscoverPage(tk.Frame):
 
     def create_bottom_bar(self):
         self.bottom_bar.grid_columnconfigure((0, 1, 2, 3), weight=1)
-        self.add_bottom_bar_item("appElements\\magnifyingIconMagnifying.webp", "Search", 0, self.search_clicked)
-        self.add_bottom_bar_item("appElements\\for_you_logo.png", "For You", 1, self.for_you_clicked)
-        self.add_bottom_bar_item("appElements\\ticketLogo.png", "My Events", 2, self.my_events_clicked)
-        self.add_bottom_bar_item("appElements\\profile_icon.webp", "Profile", 3, self.profile_clicked)
+        self.add_bottom_bar_item("appElements/magnifyingIconMagnifying.webp", "Search", 0, self.search_clicked)
+        self.add_bottom_bar_item("appElements/for_you_logo.png", "For You", 1, self.for_you_clicked)
+        self.add_bottom_bar_item("appElements/ticketLogo.png", "My Events", 2, self.my_events_clicked)
+        self.add_bottom_bar_item("appElements/profile_icon.webp", "Profile", 3, self.profile_clicked)
 
     def add_bottom_bar_item(self, image_path, label_text, column, click_function):
         icon = Image.open(image_path)

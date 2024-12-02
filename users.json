@@ -16,5 +16,11 @@
         "dob": "2002-12-29",
         "email": "josebolanos1229@gmail.com",
         "password": "123"
+    },
+    {
+        "username": "tpati4",
+        "dob": "2002-11-20",
+        "email": "tpati4@uic.edu",
+        "password": "test123"
     }
 ]
