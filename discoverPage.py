@@ -6,7 +6,7 @@ class DiscoverPage(tk.Frame):
     def __init__(self, master):
         super().__init__(master)
         self.master = master
-        self.current_page = None
+        # self.current_page = None
         self.create_widgets()
 
     def create_widgets(self):
@@ -77,12 +77,12 @@ class DiscoverPage(tk.Frame):
 
     def create_bottom_bar(self):
         self.bottom_bar.grid_columnconfigure((0, 1, 2, 3), weight=1)
-        self.add_bottom_bar_item("appElements\\magnifyingIconMagnifying.webp", "Search", 0)
-        self.add_bottom_bar_item("appElements\\for_you_logo.png", "For You", 1)
-        self.add_bottom_bar_item("appElements\\ticketLogo.png", "My Events", 2)
-        self.add_bottom_bar_item("appElements\\profile_icon.webp", "Profile", 3)
+        self.add_bottom_bar_item("appElements\\magnifyingIconMagnifying.webp", "Search", 0, self.search_clicked)
+        self.add_bottom_bar_item("appElements\\for_you_logo.png", "For You", 1, self.for_you_clicked)
+        self.add_bottom_bar_item("appElements\\ticketLogo.png", "My Events", 2, self.my_events_clicked)
+        self.add_bottom_bar_item("appElements\\profile_icon.webp", "Profile", 3, self.profile_clicked)
 
-    def add_bottom_bar_item(self, image_path, label_text, column):
+    def add_bottom_bar_item(self, image_path, label_text, column, click_function):
         icon = Image.open(image_path)
         resized_icon = icon.resize((50, 50), Image.LANCZOS)
         photo = ImageTk.PhotoImage(resized_icon)
@@ -96,6 +96,29 @@ class DiscoverPage(tk.Frame):
 
         text_label = tk.Label(item_container, text=label_text, bg="#25A03D", fg="black")
         text_label.pack()
+
+        # Bind the click event to the image label
+        image_label.bind("<Button-1>", click_function)
+
+    def search_clicked(self, event):
+        print("Search clicked")
+        #switch to search page
+        self.master.switch_to_def_search_page()
+        #move to search page
+        
+
+    def for_you_clicked(self, event):
+        print("For You clicked")
+        self.master.switch_to_for_you_page()
+        
+
+    def my_events_clicked(self, event):
+        print("My Events clicked")
+        self.master.switch_to_my_events_page()
+
+    def profile_clicked(self, event):
+        print("Profile clicked")
+        self.master.switch_to_profile_page()
 
     def perform_search(self):
         search_query = self.search_bar.get()

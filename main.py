@@ -9,6 +9,7 @@ from searchPage import SearchPage
 from myEventsPage import MyEventsPage
 from profilePage import ProfilePage
 from forYouPage import ForYouPage
+from searchPageDef import DefSearchPage
  
 
 class App(tk.Tk):
@@ -84,6 +85,7 @@ class App(tk.Tk):
         self.current_screen.pack(fill="both", expand=True)
         print("Showing DiscoverPage screen")
 
+    #
     def switch_to_search_page(self, search_query):
     # Destroy the current page completely
         for widget in self.winfo_children():
@@ -91,8 +93,19 @@ class App(tk.Tk):
 
         # Add the SearchPage
         self.current_page = SearchPage(self, search_query)
-        self.current_page.pack(fill="both", expand=True) 
+        self.current_page.pack(fill="both", expand=True)
 
+    # Function to switch to the default search page
+    def switch_to_def_search_page(self):
+        # Destroy the current page completely
+        for widget in self.winfo_children():
+            widget.destroy()
+
+        # Create a new SearchPage instance (without relying on DefSearchPage)
+        self.current_page = DefSearchPage(self)  # Pass the App instance
+        self.current_page.pack(fill="both", expand=True)
+
+    # Function to switch to the My Events page
     def switch_to_my_events_page(self):
         for widget in self.winfo_children():
             widget.destroy()
@@ -100,6 +113,7 @@ class App(tk.Tk):
         self.current_page = MyEventsPage(self)
         self.current_page.pack(fill="both", expand=True)
 
+    # Function to switch to the Profile page
     def switch_to_profile_page(self):
         for widget in self.winfo_children():
             widget.destroy()
@@ -107,6 +121,7 @@ class App(tk.Tk):
         self.current_page = ProfilePage(self)
         self.current_page.pack(fill="both", expand=True)
 
+    # Function to switch to the For You page
     def switch_to_for_you_page(self):
         for widget in self.winfo_children():
             widget.destroy()
