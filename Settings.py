@@ -65,9 +65,7 @@ class SettingsScreen(tk.Frame):
             print("Navigating to Privacy & Security screen...")
 
         elif option == "Notification Settings":
-            print("Navigating to Notification Settings screen...")
-            self.destroy_settings_screen()
-            self.open_notification_survey()
+            print("Navigating to Notification Settings screen..."
 
         elif option == "Customization Settings":
             print("Navigating to Customization Settings screen...")
@@ -89,12 +87,7 @@ class SettingsScreen(tk.Frame):
 
     # Opens the survey screen  
     def open_survey(self):
-        self.current_screen = QuestionnaireApp(master=self.master, start_question=0)   
-        self.current_screen.pack(fill="both", expand=True)
-    
-    # Opens the notification survey screen
-    def open_notification_survey(self):
-        self.current_screen = QuestionnaireApp(master=self.master, start_question=5)
+        self.current_screen = QuestionnaireApp(master=self.master)   
         self.current_screen.pack(fill="both", expand=True)
 
     def close_settings(self):
