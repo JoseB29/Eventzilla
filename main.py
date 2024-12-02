@@ -10,7 +10,6 @@ from myEventsPage import MyEventsPage
 from profilePage import ProfilePage
 from forYouPage import ForYouPage
 from searchPageDef import DefSearchPage
- 
 
 class App(tk.Tk):
     def __init__(self):

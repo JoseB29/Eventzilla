@@ -13,6 +13,7 @@ class QuestionnaireApp(tk.Frame):
         self.current_question = 0
         self.answers = {}
 
+
         # Create a container frame
         self.container = tk.Frame(self)
         self.container.pack(fill="both", expand=True)

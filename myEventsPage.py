@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import ttk
 from PIL import Image, ImageTk
 
+
 class MyEventsPage(tk.Frame):
     def __init__(self, master):
         super().__init__(master)

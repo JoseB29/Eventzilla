@@ -229,6 +229,7 @@ def combine_api_call(typeOfEvent, areaOfSearch, image_folder):
     api_url = apiCall + "classificationName=" + typeOfEvent + areaOfSearch + apiKey #combine the api call
     return fetch_events(api_url, image_folder)
 
+
 def combine_api_call(typeOfEvent, areaOfSearch, image_folder):
     """
     Combine the API call with the parameters to fetch events.

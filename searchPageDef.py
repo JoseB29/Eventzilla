@@ -23,6 +23,7 @@ class DefSearchPage(tk.Frame):
         bottom_bar_height = 90
         scrollable_height = total_height - (top_bar_height + bottom_bar_height)
 
+
         # Green bar at the top
         self.green_bar = tk.Frame(self, bg="#25A03D", height=top_bar_height)
         self.green_bar.pack(fill="x", side="top")

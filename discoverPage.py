@@ -9,6 +9,7 @@ class DiscoverPage(tk.Frame):
         # self.current_page = None
         self.create_widgets()
 
+
     def create_widgets(self):
         self.configure(bg="#F5F5F5")  # Set background for the entire page
         self.master.title("Discover")

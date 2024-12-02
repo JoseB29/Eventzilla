@@ -11,6 +11,7 @@ class SettingsScreen(tk.Frame):
         self.current_screen = None   
         self.create_widgets()
 
+
     def create_widgets(self):
         self.master.title("Settings")
         self.master.geometry("390x934")  # iPhone size

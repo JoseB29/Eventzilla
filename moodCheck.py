@@ -12,6 +12,7 @@ class MoodCheckScreen(tk.Frame):
         title_frame = tk.Frame(self, bg="green")
         title_frame.pack(fill="x")
 
+
         tk.Label(
             title_frame,
             text="Mood Check",

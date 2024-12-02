@@ -10,7 +10,6 @@ class LoginApp(tk.Frame):
         super().__init__(master)
         self.create_widgets()
 
-
     def create_widgets(self):        
         self.master.title("Login")
         self.master.geometry("390x934")  # iPhone size
