@@ -3,7 +3,7 @@ from tkinter import ttk
 from PIL import Image, ImageTk
 
 #import the api folder file functions
-from apiStuff.apiConnect import combine_api_call, get_event_basic_details
+from apiStuff.apiConnect import combine_api_call, get_event_basic_details, keyword_search
  
 #create a class called DiscoverPage
 
@@ -76,7 +76,7 @@ class SearchPage(tk.Frame):
         else:
 
             #make a call to the apiConnect file and make a call\
-            info, image_paths = combine_api_call(self.search_results, "&dmaId=249", "searchResult")
+            info, image_paths = keyword_search(self.search_results, "&dmaId=249", "searchResult")
             
         
             print(f"Number of info items: {len(info)}")

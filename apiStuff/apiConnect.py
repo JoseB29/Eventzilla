@@ -229,11 +229,39 @@ def combine_api_call(typeOfEvent, areaOfSearch, image_folder):
     api_url = apiCall + "classificationName=" + typeOfEvent + areaOfSearch + apiKey #combine the api call
     return fetch_events(api_url, image_folder)
 
+def combine_api_call(typeOfEvent, areaOfSearch, image_folder):
+    """
+    Combine the API call with the parameters to fetch events.
+    """
+    # make the tyorOfEvent lowercase
+    typeOfEvent = typeOfEvent.lower()
+
+    image_folder = "searchResult"  # Directory to save images
+    apiCall = "https://app.ticketmaster.com/discovery/v2/events.json?" #base api call
+    areaOfSearch = "&dmaId=249" #right now we lock it to the Chicago area
+    apiKey = "&apikey=9QIWlk2dq8iktJZ8FtiX9vGSmNyhN2gW" #api key
+    api_url = apiCall + "classificationName=" + typeOfEvent + areaOfSearch + apiKey #combine the api call
+    return fetch_events(api_url, image_folder)
+
+def keyword_search(keyword, areaOfSearch , image_folder):
+    """
+    Combine the API call with the parameters to fetch events.
+    """
+    keyword = keyword.lower()
+    image_folder = "searchResult"  # Directory to save images
+    apiCall = "https://app.ticketmaster.com/discovery/v2/events.json?" #base api call
+    areaOfSearch = "&dmaId=249" #right now we lock it to the Chicago
+    apiKey = "&apikey=9QIWlk2dq8iktJZ8FtiX9vGSmNyhN2gW" #api key
+    api_url = apiCall + "keyword=" + keyword + areaOfSearch + apiKey #combine the api call
+    return fetch_events(api_url, image_folder)
+
 # Main Execution
 if __name__ == "__main__":
 
 
-    dic, image_paths = combine_api_call("music", "&dmaId=249", "searchResult")
-    # print_all_event_details(dic, image_paths)
+    # dic, image_paths = combine_api_call("music", "&dmaId=249", "searchResult")
 
-    print(f"Number of info items: {dic}")
+    dic, image_paths = keyword_search("broadway", "searchResult")
+    print_all_event_details(dic, image_paths)
+
+    #print(f"Number of info items: {dic}")

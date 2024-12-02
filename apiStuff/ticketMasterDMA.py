@@ -284,7 +284,7 @@ for line in lines:
 dma_dict
 
 #create a list of the keys
-def get_cities(dma_dict):
+def get_cities(dma_dict = dma_dict):
     return list(dma_dict.keys())
 
 #create a list of the values
@@ -297,8 +297,8 @@ def get_value(dma_dict, key):
 
 
 #test the functions
-print(get_cities(dma_dict))
-# print(get_values(dma_dict))
+# print(get_cities(dma_dict))
+# # print(get_values(dma_dict))
 
-print( get_value(dma_dict, "Chicago") )
+print( get_cities())
 
