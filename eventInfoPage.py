@@ -54,9 +54,7 @@ class EventPageInfo(tk.Frame):
 
     def arrow_clicked(self, event):
         print("Arrow clicked!")
-        # Add functionality, e.g., navigate back or close the page
         self.master.switch_to_previous_page()
-
 
 
     def create_bottom_bar(self):
