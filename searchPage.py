@@ -110,6 +110,12 @@ class SearchPage(tk.Frame):
                     tk.Label(event_info, text=f"Time: {event['local_time']}", font=("Arial", 12), bg=self.bg_color).pack(anchor="w")
                     tk.Label(event_info, text=f"Location: {event['venue_name']}, {event['venue_city']}, {event['venue_state']}", font=("Arial", 12), bg=self.bg_color).pack(anchor="w")
 
+                    # Pass both the event and the current instance (self)
+                    event_frame.bind("<Button-1>", lambda e, ev=event, frame=event_frame: self.on_event_click(ev, frame))
+                    for child in event_frame.winfo_children():
+                        child.bind("<Button-1>", lambda e, ev=event, frame=event_frame: self.on_event_click(ev, frame))
+
+
 
             self.scrollable_frame.bind(
                 "<Configure>",
@@ -148,6 +154,12 @@ class SearchPage(tk.Frame):
         # Bind the click event to the image label
         image_label.bind("<Button-1>", click_function)
 
+    def on_event_click(self, event, frame):
+        print(f"Clicked on event: {event['name']}")
+        print(f"Clicked on widget: {frame}")
+        # Add logic to handle the event and use the frame as needed
+        self.master.switch_to_event_info_page()
+
     def search_clicked(self, event):
         print("Search clicked")
         #switch to search page
@@ -176,12 +188,12 @@ class SearchPage(tk.Frame):
 
 
 
-# if __name__ == "__main__":
-#     root = tk.Tk()
-#     app = SearchPage(master=root)
-#     app.pack(fill='both', expand=True)
+if __name__ == "__main__":
+    root = tk.Tk()
+    app = SearchPage(master=root, search_results="NBA")
+    app.pack(fill='both', expand=True)
 
-#     root.mainloop()
+    root.mainloop()
 
 
 

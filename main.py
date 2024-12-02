@@ -10,6 +10,7 @@ from myEventsPage import MyEventsPage
 from profilePage import ProfilePage
 from forYouPage import ForYouPage
 from searchPageDef import DefSearchPage
+from eventInfoPage import EventPageInfo
 
 class App(tk.Tk):
     def __init__(self):
@@ -126,6 +127,14 @@ class App(tk.Tk):
             widget.destroy()
 
         self.current_page = ForYouPage(self)
+        self.current_page.pack(fill="both", expand=True)
+
+    # Function to switch to the event info page
+    def switch_to_event_info_page(self):
+        for widget in self.winfo_children():
+            widget.destroy()
+
+        self.current_page = EventPageInfo(self)
         self.current_page.pack(fill="both", expand=True)
 
 
