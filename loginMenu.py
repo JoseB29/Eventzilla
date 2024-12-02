@@ -2,6 +2,8 @@ import json
 import tkinter as tk
 from tkinter import ttk
 
+from profilePage import ProfilePage
+
  
  
 class LoginApp(tk.Frame):
@@ -96,8 +98,8 @@ class LoginApp(tk.Frame):
                 self.error_label.pack(fill="x", pady=(5, 10))
                 return
             
-            print("Login pressed")
 
+        self.master.email = email
         print("Login pressed")
         self.master.show_mood_check_screen()
 

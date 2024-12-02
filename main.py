@@ -19,6 +19,9 @@ class App(tk.Tk):
         self.current_screen = None
         self.current_page = None  # Initialize current_page
         self.previous_page = None  # Initialize previous_page
+
+        self.email = None
+
         self.show_screen1()
 
     # Function to show the login screen
@@ -119,7 +122,7 @@ class App(tk.Tk):
         for widget in self.winfo_children():
             widget.destroy()
 
-        self.current_page = ProfilePage(self)
+        self.current_page = ProfilePage(self, email=self.email)
         self.current_page.pack(fill="both", expand=True)
 
     # Function to switch to the For You page

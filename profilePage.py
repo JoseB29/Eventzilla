@@ -1,12 +1,14 @@
 import tkinter as tk
 from tkinter import ttk
 from PIL import Image, ImageTk
+import json
 
 
 class ProfilePage(tk.Frame):
-    def __init__(self, master):
+    def __init__(self, master=None, email=None):
         super().__init__(master)
         self.master = master
+        self.email = email
         self.current_page = None
         self.create_widgets()
 
@@ -29,54 +31,54 @@ class ProfilePage(tk.Frame):
         self.green_bar.pack(fill="x", side="top")
         self.green_bar.pack_propagate(False)
 
-        self.title = tk.Label(self.green_bar, text="My Profile", font=("Odibee Sans", 24, "bold"), fg="white", bg="#25A03D")
+        self.title = tk.Label(self.green_bar, text="My Account", font=("Odibee Sans", 24, "bold"), fg="white", bg="#25A03D")
         self.title.pack(expand=True)
 
-        # Search Section
-        search_frame = tk.Frame(self, bg=self.bg_color)
-        search_frame.pack(pady=10, padx=10, fill="x")
+        username = self.get_username_by_email(self.email)
+        self.username_label = tk.Label(self.green_bar, text=username, font=("Odibee Sans", 15, "bold"), fg="white", bg="#25A03D", anchor="w")
+        self.username_label.pack(fill="x", side="top", anchor="w", padx=10)
 
-        search_frame.grid_columnconfigure(0, weight=1)
-        search_frame.grid_columnconfigure(1, weight=0)
+        self.email_label = tk.Label(self.green_bar, text=self.email, font=("Odibee Sans", 15), fg="white", bg="#25A03D", anchor="w")
+        self.email_label.pack(fill="x", side="top", anchor="w", padx=10)
 
-        self.search_bar = ttk.Entry(search_frame, font=("Arial", 12))
-        self.search_bar.grid(row=0, column=0, sticky="ew", padx=(0, 5), ipady=8)
+        # Notification Section
+        notification_frame = tk.Frame(self, bg=self.bg_color)
+        notification_frame.pack(pady=10, padx=10, fill="x")
 
-        self.search_button = tk.Button(
-            search_frame, text="Search", bg=self.btn_color, font=("Arial", 12, "bold"),
-            relief="flat", fg="black", activebackground="#C0C0C0", command=self.perform_search
+        self.notification_label = tk.Label(notification_frame, text="Notifications", font=("Helvetica", 15, "bold"), fg="black", anchor="w")
+        self.notification_label.pack(fill="x", side="top", anchor="w", padx=10)
+
+        # add My Notificantions button
+        self.notification_button = tk.Button(
+            notification_frame, text="My Notifications", bg=self.btn_color, font=("Arial", 12, "bold"),
+            relief="flat", fg="black", activebackground="#C0C0C0"
         )
-        self.search_button.grid(row=0, column=1, sticky="ew", ipadx=10, ipady=8)
+        self.notification_button.pack(fill="x", side="top", anchor="w", padx=10, pady=5)
 
-        # Scrollable Section
-        scrollable_section = tk.Frame(self, bg=self.bg_color, height=scrollable_height)
-        scrollable_section.pack(fill="both", expand=True)
+        # Account Management Section
 
-        self.scrollable_canvas = tk.Canvas(scrollable_section, bg=self.bg_color, height=scrollable_height)
-        self.scrollable_frame = ttk.Frame(self.scrollable_canvas)
-        self.scrollable_canvas.create_window((0, 0), window=self.scrollable_frame, anchor="nw")
-        self.scrollable_canvas.pack(side="left", fill="both", expand=True)
+        # Privacy and Security Section
 
-        self.scrollbar = ttk.Scrollbar(scrollable_section, orient="vertical", command=self.scrollable_canvas.yview)
-        self.scrollbar.pack(side="right", fill="y")
-        self.scrollable_canvas.configure(yscrollcommand=self.scrollbar.set)
+        # Sign out button
 
-
-        #sample filling of the scrollable frame
-        for i in range(20):
-            tk.Label(self.scrollable_frame, text=f"Event {i + 1}", font=("Arial", 14), bg=self.bg_color).pack(pady=5, padx=10)
-
-        self.scrollable_frame.bind(
-            "<Configure>",
-            lambda e: self.scrollable_canvas.configure(scrollregion=self.scrollable_canvas.bbox("all"))
-        )
-
+ 
         # Bottom Bar
         self.bottom_bar = tk.Frame(self, bg="#25A03D", height=bottom_bar_height)
         self.bottom_bar.pack(side="bottom", fill="x")
         self.bottom_bar.pack_propagate(False)
 
         self.create_bottom_bar()
+    
+    def get_username_by_email(self, email):
+        try:
+            with open("users.json", "r") as f:
+                users = json.load(f)
+                user = next((u for u in users if u["email"] == email), None)
+                if user:
+                    return user["username"]
+        except (json.JSONDecodeError, FileNotFoundError):
+            pass
+        return "Failed to get username"
 
     def create_bottom_bar(self):
         self.bottom_bar.grid_columnconfigure((0, 1, 2, 3), weight=1)
@@ -131,8 +133,8 @@ class ProfilePage(tk.Frame):
 
 
 # Run the app
-# if __name__ == "__main__":
-#     root = tk.Tk()
-#     app = ProfilePage(master=root)
-#     app.pack(fill="both", expand=True)
-#     root.mainloop()
+if __name__ == "__main__":
+    root = tk.Tk()
+    app = ProfilePage(master=root)
+    app.pack(fill="both", expand=True)
+    root.mainloop()
