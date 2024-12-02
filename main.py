@@ -18,6 +18,7 @@ class App(tk.Tk):
         self.title("EventZilla")
         self.current_screen = None
         self.current_page = None  # Initialize current_page
+        self.previous_page = None  # Initialize previous_page
         self.show_screen1()
 
     # Function to show the login screen
@@ -136,6 +137,23 @@ class App(tk.Tk):
 
         self.current_page = EventPageInfo(self)
         self.current_page.pack(fill="both", expand=True)
+    
+    #Function to switch to the previous page
+    def switch_to_previous_page(self):
+        if self.previous_page is not None:
+            print("Destroying current screen")
+            if self.current_page is not None:
+                self.current_page.destroy()
+            
+            self.current_page = self.previous_page
+            self.current_page.pack(fill="both", expand=True)
+        else:
+            self.show_discover_page()
+
+        
+
+
+        
 
 
 if __name__ == "__main__":
