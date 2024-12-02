@@ -6,7 +6,7 @@ class EventPageInfo(tk.Frame):
     def __init__(self, master):
         super().__init__(master)
         self.master = master
-        # self.current_page = None
+        self.current_page = None
         self.create_widgets()
 
 
@@ -55,7 +55,7 @@ class EventPageInfo(tk.Frame):
     def arrow_clicked(self, event):
         print("Arrow clicked!")
         # Add functionality, e.g., navigate back or close the page
-        # self.master.switch_to_previous_page()
+        self.master.switch_to_previous_page()
 
 
 
