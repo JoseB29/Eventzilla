@@ -65,7 +65,7 @@ class SettingsScreen(tk.Frame):
             print("Navigating to Privacy & Security screen...")
 
         elif option == "Notification Settings":
-            print("Navigating to Notification Settings screen..."
+            print("Navigating to Notification Settings screen...")
 
         elif option == "Customization Settings":
             print("Navigating to Customization Settings screen...")
