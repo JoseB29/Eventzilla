@@ -3,11 +3,13 @@ from tkinter import ttk
 from PIL import Image, ImageTk
 
 class EventPageInfo(tk.Frame):
-    def __init__(self, master):
+    def __init__(self, master, search_results, event_info):
         super().__init__(master)
         self.master = master
         self.current_page = None
+        self.event_info = event_info
         self.create_widgets()
+        self.search_results = search_results
 
 
     def create_widgets(self):
@@ -22,12 +24,13 @@ class EventPageInfo(tk.Frame):
         total_height = 844
         top_bar_height = 90
         bottom_bar_height = 90
-        scrollable_height = total_height - (top_bar_height + bottom_bar_height)
 
         # Green bar at the top
         self.green_bar = tk.Frame(self, bg="#25A03D", height=top_bar_height)
         self.green_bar.pack(fill="x", side="top")
         self.green_bar.pack_propagate(False)
+        
+   
 
         # Add the arrow image to the top-left corner
         arrow_image = Image.open("appElements\\arrowFacingLeft.png")
@@ -45,6 +48,24 @@ class EventPageInfo(tk.Frame):
         self.title = tk.Label(self.green_bar, text="Event Details", font=("Helvetica", 24, "bold"), fg="white", bg="#25A03D")
         self.title.pack(expand=True)
 
+        #now display the event info
+        event_name = self.event_info["name"]
+        event_date = self.event_info["local_date"]
+        event_time = self.event_info["local_time"]
+        event_venue = self.event_info["venue_name"]
+        event_city = self.event_info["venue_city"]
+        event_state = self.event_info["venue_state"]
+        event_image = self.event_info["image_path"]
+        event_url = self.event_info["event_url"]
+
+        # Display the event picture right below the top green bar
+        event_image = Image.open(event_image)
+        resized_event_image = event_image.resize((390, 300), Image.LANCZOS)
+        event_photo = ImageTk.PhotoImage(resized_event_image)
+
+
+
+
         # Bottom Bar
         self.bottom_bar = tk.Frame(self, bg="#25A03D", height=bottom_bar_height)
         self.bottom_bar.pack(side="bottom", fill="x")
@@ -54,7 +75,8 @@ class EventPageInfo(tk.Frame):
 
     def arrow_clicked(self, event):
         print("Arrow clicked!")
-        self.master.switch_to_previous_page()
+        search_query = self.search_results
+        self.master.switch_to_search_page(search_query)
 
 
     def create_bottom_bar(self):

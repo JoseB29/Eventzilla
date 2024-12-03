@@ -111,9 +111,9 @@ class SearchPage(tk.Frame):
                     tk.Label(event_info, text=f"Location: {event['venue_name']}, {event['venue_city']}, {event['venue_state']}", font=("Arial", 12), bg=self.bg_color).pack(anchor="w")
 
                     # Pass both the event and the current instance (self)
-                    event_frame.bind("<Button-1>", lambda e, ev=event, frame=event_frame: self.on_event_click(ev, frame))
+                    event_frame.bind("<Button-1>", lambda e, ev=event, frame=event_frame, srch=self.search_results, eventInfo=info, picInfo=image_paths: self.on_event_click(ev, frame, srch,eventInfo,picInfo))
                     for child in event_frame.winfo_children():
-                        child.bind("<Button-1>", lambda e, ev=event, frame=event_frame: self.on_event_click(ev, frame))
+                        child.bind("<Button-1>", lambda e, ev=event, frame=event_frame, srch=self.search_results, eventInfo=info, picInfo=image_paths: self.on_event_click(ev, frame, srch,eventInfo,picInfo))
 
 
 
@@ -154,11 +154,10 @@ class SearchPage(tk.Frame):
         # Bind the click event to the image label
         image_label.bind("<Button-1>", click_function)
 
-    def on_event_click(self, event, frame):
-        print(f"Clicked on event: {event['name']}")
-        print(f"Clicked on widget: {frame}")
-        # Add logic to handle the event and use the frame as needed
-        self.master.switch_to_event_info_page()
+    def on_event_click(self, event, frame, search_query, dict, picInfo):
+
+        #move to the event info page
+        self.master.switch_to_event_info_page(search_query, event)
 
     def search_clicked(self, event):
         print("Search clicked")
@@ -188,12 +187,12 @@ class SearchPage(tk.Frame):
 
 
 
-if __name__ == "__main__":
-    root = tk.Tk()
-    app = SearchPage(master=root, search_results="NBA")
-    app.pack(fill='both', expand=True)
+# if __name__ == "__main__":
+#     root = tk.Tk()
+#     app = SearchPage(master=root, search_results="NBA")
+#     app.pack(fill='both', expand=True)
 
-    root.mainloop()
+#     root.mainloop()
 
 
 

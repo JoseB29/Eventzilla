@@ -134,24 +134,14 @@ class App(tk.Tk):
         self.current_page.pack(fill="both", expand=True)
 
     # Function to switch to the event info page
-    def switch_to_event_info_page(self):
+    def switch_to_event_info_page(self,search_query, event):
         for widget in self.winfo_children():
             widget.destroy()
 
-        self.current_page = EventPageInfo(self)
+        self.current_page = EventPageInfo(self,search_query, event)
         self.current_page.pack(fill="both", expand=True)
+
     
-    #Function to switch to the previous page
-    def switch_to_previous_page(self):
-        if self.previous_page is not None:
-            print("Destroying current screen")
-            if self.current_page is not None:
-                self.current_page.destroy()
-            
-            self.current_page = self.previous_page
-            self.current_page.pack(fill="both", expand=True)
-        else:
-            self.show_discover_page()
 
         
 
