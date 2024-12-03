@@ -1,6 +1,8 @@
 import tkinter as tk
 from tkinter import ttk
 from PIL import Image, ImageTk
+import json
+import random
 
 class ForYouPage(tk.Frame):
     def __init__(self, master):
@@ -61,10 +63,68 @@ class ForYouPage(tk.Frame):
         self.scrollbar.pack(side="right", fill="y")
         self.scrollable_canvas.configure(yscrollcommand=self.scrollbar.set)
 
+        #now we pick 10 random events to display from introSurveyAnswer.json
+        random_events = self.get_random_events("introSurveyAnswer.json", 10)
+    
+        #now we display the events
 
-        #sample filling of the scrollable frame
-        for i in range(20):
-            tk.Label(self.scrollable_frame, text=f"Event {i + 1}", font=("Helvetica", 14), bg=self.bg_color).pack(pady=5, padx=10)
+        for i, event in enumerate(random_events):
+            # Create the frame for each event
+            event_frame = tk.Frame(self.scrollable_frame, bg=self.bg_color)
+            event_frame.pack(fill="x", pady=5, padx=10)
+
+            # Load and resize the event image
+            image = Image.open(event["image_path"])
+            resized_image = image.resize((100, 100), Image.LANCZOS)
+            photo = ImageTk.PhotoImage(resized_image)
+
+            # Create and pack the image label on the left side
+            image_label = tk.Label(event_frame, image=photo, bg=self.bg_color)
+            image_label.image = photo
+            image_label.pack(side="left", padx=(0, 10))
+
+            # Bind the click event to the image label
+            image_label.bind("<Button-1>", lambda e, event=event: self.on_image_click(e, event))
+
+            # Create a frame for the event info (name, date, time, location)
+            event_info = tk.Frame(event_frame, bg=self.bg_color)
+            event_info.pack(fill="both", expand=True)
+
+            # Add event name
+            tk.Label(
+                event_info, 
+                text=event["name"], 
+                font=("Helvetica", 14), 
+                bg=self.bg_color, 
+                wraplength=350,  # Wrap text at 350 pixels wide
+                justify="left"
+            ).pack(anchor="w")
+
+            # Add event date
+            tk.Label(
+                event_info, 
+                text=f"Date: {event['local_date']}", 
+                font=("Helvetica", 12), 
+                bg=self.bg_color
+            ).pack(anchor="w")
+
+            # Add event time
+            tk.Label(
+                event_info, 
+                text=f"Time: {event['local_time']}", 
+                font=("Helvetica", 12), 
+                bg=self.bg_color
+            ).pack(anchor="w")
+
+            # Add event location (venue name, city, state)
+            tk.Label(
+                event_info, 
+                text=f"Location: {event['venue_name']}, {event['venue_city']}, {event['venue_state']}", 
+                font=("Arial", 12), 
+                bg=self.bg_color
+            ).pack(anchor="w")
+        
+
 
         self.scrollable_frame.bind(
             "<Configure>",
@@ -77,6 +137,11 @@ class ForYouPage(tk.Frame):
         self.bottom_bar.pack_propagate(False)
 
         self.create_bottom_bar()
+
+    def on_image_click(self, event, event_data):
+        print(f"Image clicked for event: {event_data['name']}")
+        self.master.switch_to_event_info_pageTwo(event_data)
+        # You can replace this with any action you'd like, for example:
 
     def create_bottom_bar(self):
         self.bottom_bar.grid_columnconfigure((0, 1, 2, 3), weight=1)
@@ -102,6 +167,29 @@ class ForYouPage(tk.Frame):
 
         # Bind the click event to the image label
         image_label.bind("<Button-1>", click_function)
+
+    def get_random_events(self, file_path, num_events=25):
+    # Open and load the JSON data from the file
+        with open(file_path, 'r') as file:
+            data = json.load(file)
+        
+        # Extract the event details from the loaded data
+        events = list(data.values())  # Convert the dictionary to a list of events
+        
+        # Create a set to track event names to ensure uniqueness
+        unique_events = []
+        seen_event_names = set()
+        
+        # Filter out events with duplicate names
+        for event in events:
+            if event['name'] not in seen_event_names:
+                unique_events.append(event)
+                seen_event_names.add(event['name'])
+        
+        # Select num_events random events (if there are enough unique events)
+        selected_events = random.sample(unique_events, min(num_events, len(unique_events)))
+        
+        return selected_events  # Return the list of selected events
 
     def search_clicked(self, event):
         print("Search clicked")

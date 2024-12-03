@@ -3,6 +3,26 @@
         "email": "josebolanos1229@gmail.com",
         "favorites": [
             {
+                "name": "Frankie Valli & The Four Seasons-the Last Encores",
+                "local_date": "2025-03-30",
+                "local_time": "19:00:00",
+                "venue_name": "Genesee Theatre",
+                "venue_city": "Waukegan",
+                "venue_state": "IL",
+                "image_path": "discover_and_for_you_page_pics\\vvG1jZb2BT2NAc_image.jpg",
+                "event_url": "https://www.ticketmaster.com/frankie-valli-the-four-seasonsthe-last-waukegan-illinois-03-30-2025/event/070060FEBF3E316D"
+            },
+            {
+                "name": "Chicago Bulls vs. Milwaukee Bucks",
+                "local_date": "2024-12-23",
+                "local_time": "19:00:00",
+                "venue_name": "United Center",
+                "venue_city": "Chicago",
+                "venue_state": "IL",
+                "image_path": "searchResult\\vv1A7Zk78GkeHFfh3_image.jpg",
+                "event_url": "https://www.ticketmaster.com/chicago-bulls-vs-milwaukee-bucks-chicago-illinois-12-23-2024/event/04006110BC2146D2"
+            },
+            {
                 "name": "Chicago Bears vs. Detroit Lions",
                 "local_date": "2024-12-22",
                 "local_time": "12:00:00",
@@ -13,24 +33,24 @@
                 "event_url": "https://www.ticketmaster.com/chicago-bears-vs-detroit-lions-chicago-illinois-12-22-2024/event/04006064A31614B3"
             },
             {
-                "name": "Chicago Bulls vs. Phoenix Suns",
-                "local_date": "2025-02-22",
-                "local_time": "16:00:00",
-                "venue_name": "United Center",
+                "name": "My Chemical Romance: The Black Parade",
+                "local_date": "2025-08-29",
+                "local_time": "18:00:00",
+                "venue_name": "Soldier Field",
                 "venue_city": "Chicago",
                 "venue_state": "IL",
-                "image_path": "searchResult\\vv1A7Zk78GkeHffj1_image.jpg",
-                "event_url": "https://www.ticketmaster.com/chicago-bulls-vs-phoenix-suns-chicago-illinois-02-22-2025/event/04006110BC51470A"
+                "image_path": "searchResult\\vv1kvZv-_VGACnAe2_image.jpg",
+                "event_url": "https://www.ticketmaster.com/my-chemical-romance-the-black-parade-chicago-illinois-08-29-2025/event/040061674EA8508F"
             },
             {
-                "name": "Music of the Baroque",
-                "local_date": "2025-03-02",
-                "local_time": "19:30:00",
+                "name": "Legally Blonde",
+                "local_date": "2024-12-22",
+                "local_time": "14:00:00",
                 "venue_name": "Center Theatre at North Shore Center for the Performing Arts",
                 "venue_city": "Skokie",
                 "venue_state": "IL",
-                "image_path": "searchResult\\vv1A6Zk7dGkdo8gls_image.jpg",
-                "event_url": "https://www.ticketmaster.com/music-of-the-baroque-skokie-illinois-03-02-2025/event/07006103D1435AF1"
+                "image_path": "discover_and_for_you_page_pics\\vv1A6ZkZwGkdcrViy_image.jpg",
+                "event_url": "https://www.ticketmaster.com/legally-blonde-skokie-illinois-12-22-2024/event/07006032ED7B4B39"
             }
         ]
     },

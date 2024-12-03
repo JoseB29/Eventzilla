@@ -1,0 +1,19 @@
+{
+    "zip_code": "60804",
+    "event_types": [
+        "Concerts",
+        "Food and Drink"
+    ],
+    "music_genres": [
+        "Hip Hop/Rap",
+        "Indie"
+    ],
+    "sports_interests": [
+        "Golf",
+        "Cricket",
+        "Wrestling"
+    ],
+    "price_tracking": false,
+    "notification_frequency": "Once a Week",
+    "reminder_frequency": "Once a Week"
+}

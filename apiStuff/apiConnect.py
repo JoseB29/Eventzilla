@@ -4,7 +4,7 @@ import requests
 import requests
 import os
 
-def fetch_events(api_url, image_folder):
+def fetch_events(api_url, image_folder, savingAllImages):
     """
     Fetch events from the Ticketmaster API and return them as a list of dictionaries.
     Also, clear the image folder and save event images.
@@ -18,7 +18,7 @@ def fetch_events(api_url, image_folder):
         data = response.json()
         events = data.get('_embedded', {}).get('events', [])
         print(f"Total Events Found: {len(events)}")
-        clear_image_folder(image_folder)  # Clear the image folder before saving new images
+        clear_image_folder(image_folder, savingAllImages)  # Clear the image folder before saving new images
         save_images(events, image_folder, image_paths)  # Save the images for each event
     else:
         print(f"API call failed with status code {response.status_code}")
@@ -26,15 +26,16 @@ def fetch_events(api_url, image_folder):
 
     return events, image_paths
 
-def clear_image_folder(image_folder):
+def clear_image_folder(image_folder, savingAllImages):
     """
     Delete all images in the folder before adding new ones.
     """
-    for filename in os.listdir(image_folder):
-        file_path = os.path.join(image_folder, filename)
-        if os.path.isfile(file_path):
-            os.remove(file_path)
-            print(f"Deleted {filename} from the image folder.")
+    if savingAllImages == 1:
+        for filename in os.listdir(image_folder):
+            file_path = os.path.join(image_folder, filename)
+            if os.path.isfile(file_path):
+                os.remove(file_path)
+                print(f"Deleted {filename} from the image folder.")
 
 def save_images(events, image_folder, image_paths):
     """
@@ -219,7 +220,7 @@ def get_event_basic_details(event_list, image_paths):
     return eventList
 
 
-def combine_api_call(typeOfEvent, areaOfSearch, image_folder):
+def combine_api_call(typeOfEvent, areaOfSearch, image_folder, savingAllImages = 1):
     """
     Combine the API call with the parameters to fetch events.
     """
@@ -231,42 +232,38 @@ def combine_api_call(typeOfEvent, areaOfSearch, image_folder):
     areaOfSearch = "&dmaId=249" #right now we lock it to the Chicago area
     apiKey = "&apikey=9QIWlk2dq8iktJZ8FtiX9vGSmNyhN2gW" #api key
     api_url = apiCall + "classificationName=" + typeOfEvent + areaOfSearch + apiKey #combine the api call
-    return fetch_events(api_url, image_folder)
+    return fetch_events(api_url, image_folder, savingAllImages)
 
-
-def combine_api_call(typeOfEvent, areaOfSearch, image_folder):
-    """
-    Combine the API call with the parameters to fetch events.
-    """
-    # make the tyorOfEvent lowercase
-    typeOfEvent = typeOfEvent.lower()
-
-    image_folder = "searchResult"  # Directory to save images
-    apiCall = "https://app.ticketmaster.com/discovery/v2/events.json?" #base api call
-    areaOfSearch = "&dmaId=249" #right now we lock it to the Chicago area
-    apiKey = "&apikey=9QIWlk2dq8iktJZ8FtiX9vGSmNyhN2gW" #api key
-    api_url = apiCall + "classificationName=" + typeOfEvent + areaOfSearch + apiKey #combine the api call
-    return fetch_events(api_url, image_folder)
-
-def keyword_search(keyword, areaOfSearch , image_folder):
+def keyword_search(keyword, areaOfSearch , image_folder, savingAllImages = 1):
     """
     Combine the API call with the parameters to fetch events.
     """
     keyword = keyword.lower()
-    image_folder = "searchResult"  # Directory to save images
+    # image_folder = "searchResult"  # Directory to save images
     apiCall = "https://app.ticketmaster.com/discovery/v2/events.json?" #base api call
     areaOfSearch = "&dmaId=249" #right now we lock it to the Chicago
     apiKey = "&apikey=9QIWlk2dq8iktJZ8FtiX9vGSmNyhN2gW" #api key
     api_url = apiCall + "keyword=" + keyword + areaOfSearch + apiKey #combine the api call
-    return fetch_events(api_url, image_folder)
+    return fetch_events(api_url, image_folder, savingAllImages) 
 
 # Main Execution
 if __name__ == "__main__":
 
 
-    # dic, image_paths = combine_api_call("music", "&dmaId=249", "searchResult")
+    # dic, image_paths = combine_api_call("cooki", "&dmaId=249", "searchResult")
 
-    dic, image_paths = keyword_search("broadway", "searchResult")
+    dic, image_paths = keyword_search("street","&dmaId=249", "searchResult")
     print_all_event_details(dic, image_paths)
+
+    #below is a list of stuff
+    #Lets go out - music, food, sports
+    #Home Sweet Home... - art, movie
+    #Exploration Vibes - museum, science, fair
+    #The Good Ol' Times - classic, annual, album
+    #Rage Bait - rock
+    #Sad core - jazz, therpy, street
+
+    #create a dictionary with the info above
+
 
     #print(f"Number of info items: {dic}")
