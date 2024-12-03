@@ -37,7 +37,7 @@ class SearchPage(tk.Frame):
         self.green_bar.pack(fill="x", side="top")
         self.green_bar.pack_propagate(False)
 
-        self.title = tk.Label(self.green_bar, text="Search", font=("Odibee Sans", 24, "bold"), fg="white", bg="#25A03D")
+        self.title = tk.Label(self.green_bar, text="Search", font=("Helvetica", 24, "bold"), fg="white", bg="#25A03D")
         self.title.pack(expand=True)
 
         # Search Section
@@ -47,11 +47,11 @@ class SearchPage(tk.Frame):
         search_frame.grid_columnconfigure(0, weight=1)
         search_frame.grid_columnconfigure(1, weight=0)
 
-        self.search_bar = ttk.Entry(search_frame, font=("Arial", 12))
+        self.search_bar = ttk.Entry(search_frame, font=("Helvetica", 12))
         self.search_bar.grid(row=0, column=0, sticky="ew", padx=(0, 5), ipady=8)
 
         self.search_button = tk.Button(
-            search_frame, text="Search", bg=self.btn_color, font=("Arial", 12, "bold"),
+            search_frame, text="Search", bg=self.btn_color, font=("Helvetica", 12, "bold"),
             relief="flat", fg="black", activebackground="#C0C0C0", command=self.perform_search
         )
         self.search_button.grid(row=0, column=1, sticky="ew", ipadx=10, ipady=8)
@@ -71,7 +71,7 @@ class SearchPage(tk.Frame):
 
         #if nothing was inputted into the search bar, we just display a message saying no events found
         if self.search_results == "":
-            tk.Label(self.scrollable_frame, text="No events found", font=("Arial", 14), bg=self.bg_color).pack(pady=5, padx=10)
+            tk.Label(self.scrollable_frame, text="No events found", font=("Helvetica", 14), bg=self.bg_color).pack(pady=5, padx=10)
             return
         else:
 
@@ -83,7 +83,7 @@ class SearchPage(tk.Frame):
             print(f"Number of image paths: {len(image_paths)}")
             #now we check if the search was successful
             if len(info) == 0 or len(image_paths) == 0:
-                tk.Label(self.scrollable_frame, text="No events found", font=("Arial", 14), bg=self.bg_color).pack(pady=5, padx=10)
+                tk.Label(self.scrollable_frame, text="No events found", font=("Helvetica", 14), bg=self.bg_color).pack(pady=5, padx=10)
 
             else:
                 #now we call the function that gets us the most important details of the event
@@ -105,9 +105,9 @@ class SearchPage(tk.Frame):
                     event_info = tk.Frame(event_frame, bg=self.bg_color)
                     event_info.pack(fill="both", expand=True)
 
-                    tk.Label(event_info, text=event["name"], font=("Arial", 14), bg=self.bg_color).pack(anchor="w")
-                    tk.Label(event_info, text=f"Date: {event['local_date']}", font=("Arial", 12), bg=self.bg_color).pack(anchor="w")
-                    tk.Label(event_info, text=f"Time: {event['local_time']}", font=("Arial", 12), bg=self.bg_color).pack(anchor="w")
+                    tk.Label(event_info, text=event["name"], font=("Helvetica", 14), bg=self.bg_color).pack(anchor="w")
+                    tk.Label(event_info, text=f"Date: {event['local_date']}", font=("Helvetica", 12), bg=self.bg_color).pack(anchor="w")
+                    tk.Label(event_info, text=f"Time: {event['local_time']}", font=("Helvetica", 12), bg=self.bg_color).pack(anchor="w")
                     tk.Label(event_info, text=f"Location: {event['venue_name']}, {event['venue_city']}, {event['venue_state']}", font=("Arial", 12), bg=self.bg_color).pack(anchor="w")
 
                     # Pass both the event and the current instance (self)

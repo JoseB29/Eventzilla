@@ -31,14 +31,14 @@ class ProfilePage(tk.Frame):
         self.green_bar.pack(fill="x", side="top")
         self.green_bar.pack_propagate(False)
 
-        self.title = tk.Label(self.green_bar, text="My Account", font=("Odibee Sans", 24, "bold"), fg="white", bg="#25A03D")
+        self.title = tk.Label(self.green_bar, text="My Account", font=("Helvetica", 24, "bold"), fg="white", bg="#25A03D")
         self.title.pack(expand=True)
 
         username = self.get_username_by_email(self.email)
-        self.username_label = tk.Label(self.green_bar, text=username, font=("Odibee Sans", 15, "bold"), fg="white", bg="#25A03D", anchor="w")
+        self.username_label = tk.Label(self.green_bar, text=username, font=("Helvetica", 15, "bold"), fg="white", bg="#25A03D", anchor="w")
         self.username_label.pack(fill="x", side="top", anchor="w", padx=10)
 
-        self.email_label = tk.Label(self.green_bar, text=self.email, font=("Odibee Sans", 15), fg="white", bg="#25A03D", anchor="w")
+        self.email_label = tk.Label(self.green_bar, text=self.email, font=("Helvetica", 15), fg="white", bg="#25A03D", anchor="w")
         self.email_label.pack(fill="x", side="top", anchor="w", padx=10)
 
         # Notification Section
@@ -50,7 +50,7 @@ class ProfilePage(tk.Frame):
 
         # add My Notificantions button
         self.notification_button = tk.Button(
-            notification_frame, text="My Notifications", bg=self.btn_color, font=("Arial", 12, "bold"),
+            notification_frame, text="My Notifications                                                   >", bg=self.btn_color, font=("Helvetica", 12, "bold"),
             relief="flat", fg="black", activebackground="#C0C0C0"
         )
         self.notification_button.pack(fill="x", side="top", anchor="w", padx=10, pady=5)

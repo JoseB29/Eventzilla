@@ -42,7 +42,7 @@ class EventPageInfo(tk.Frame):
         self.arrow_label.bind("<Button-1>", self.arrow_clicked)
 
         # Title in the green bar
-        self.title = tk.Label(self.green_bar, text="Event Details", font=("Odibee Sans", 24, "bold"), fg="white", bg="#25A03D")
+        self.title = tk.Label(self.green_bar, text="Event Details", font=("Helvetica", 24, "bold"), fg="white", bg="#25A03D")
         self.title.pack(expand=True)
 
         # Bottom Bar

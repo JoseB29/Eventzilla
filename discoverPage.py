@@ -29,7 +29,7 @@ class DiscoverPage(tk.Frame):
         self.green_bar.pack(fill="x", side="top")
         self.green_bar.pack_propagate(False)
 
-        self.title = tk.Label(self.green_bar, text="Discover", font=("Odibee Sans", 24, "bold"), fg="white", bg="#25A03D")
+        self.title = tk.Label(self.green_bar, text="Discover", font=("Helvetica", 24, "bold"), fg="white", bg="#25A03D")
         self.title.pack(expand=True)
 
         # Search Section
@@ -39,11 +39,11 @@ class DiscoverPage(tk.Frame):
         search_frame.grid_columnconfigure(0, weight=1)
         search_frame.grid_columnconfigure(1, weight=0)
 
-        self.search_bar = ttk.Entry(search_frame, font=("Arial", 12))
+        self.search_bar = ttk.Entry(search_frame, font=("Helvetica", 12))
         self.search_bar.grid(row=0, column=0, sticky="ew", padx=(0, 5), ipady=8)
 
         self.search_button = tk.Button(
-            search_frame, text="Search", bg=self.btn_color, font=("Arial", 12, "bold"),
+            search_frame, text="Search", bg=self.btn_color, font=("Helvetica", 12, "bold"),
             relief="flat", fg="black", activebackground="#C0C0C0", command=self.perform_search
         )
         self.search_button.grid(row=0, column=1, sticky="ew", ipadx=10, ipady=8)
@@ -69,7 +69,7 @@ class DiscoverPage(tk.Frame):
         self.scrollable_canvas.configure(yscrollcommand=self.scrollbar.set)
 
         for i in range(20):
-            tk.Label(self.scrollable_frame, text=f"Event {i + 1}", font=("Arial", 14), bg=self.bg_color).pack(pady=5, padx=10)
+            tk.Label(self.scrollable_frame, text=f"Event {i + 1}", font=("Helvetica", 14), bg=self.bg_color).pack(pady=5, padx=10)
 
         self.scrollable_frame.bind(
             "<Configure>",
