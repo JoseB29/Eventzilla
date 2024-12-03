@@ -242,7 +242,7 @@ class QuestionnaireApp(tk.Frame):
             json.dump(self.answers, file, indent=4)
 
         messagebox.showinfo("Thank You", "Your answers have been saved. Thank you for completing the questionnaire!")
-        self.master.quit()
+        self.master.show_discover_page()
 
 if __name__ == "__main__":
     root = tk.Tk()

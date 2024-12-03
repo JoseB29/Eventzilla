@@ -28,5 +28,11 @@
         "dob": "2002-06-04",
         "email": "adiaz218@uic.edu",
         "password": "1234"
+    },
+    {
+        "username": "alexa",
+        "dob": "2002-05-01",
+        "email": "aosuna2@uic.edu",
+        "password": "password"
     }
 ]
