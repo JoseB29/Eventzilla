@@ -1,0 +1,21 @@
+{
+    "zip_code": "12345",
+    "event_types": [
+        "Arts and Museums",
+        "Concerts",
+        "Sports"
+    ],
+    "music_genres": [
+        "Hip Hop/Rap",
+        "Latin",
+        "Pop"
+    ],
+    "sports_interests": [
+        "Soccer",
+        "Football",
+        "Golf"
+    ],
+    "price_tracking": false,
+    "notification_frequency": "Once a Week",
+    "reminder_frequency": "Once a Week"
+}

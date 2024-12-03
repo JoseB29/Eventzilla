@@ -1,11 +1,19 @@
 import tkinter as tk
 from tkinter import messagebox
- 
+import json
+import os
 class QuestionnaireApp(tk.Frame):
     def __init__(self, master=None):
         super().__init__(master)
         self.master = master
         self.create_widgets()
+        self.ensure_file_exists("questionnaire_answers.json")#Ensures JSON file exists
+
+    def ensure_file_exists(self, file_path):
+        """Create the file if it doesn't exist."""
+        if not os.path.exists(file_path):
+            with open(file_path, "w") as file:
+                json.dump({}, file)   
 
     def create_widgets(self):
         self.master.title("Event Preferences Questionnaire")
@@ -16,6 +24,7 @@ class QuestionnaireApp(tk.Frame):
         # Create a container frame
         self.container = tk.Frame(self)
         self.container.pack(fill="both", expand=True)
+        self.show_question()
 
     def show_question(self):
         # Clear the container for new content
@@ -227,13 +236,16 @@ class QuestionnaireApp(tk.Frame):
         self.show_question()
 
 
+    # Finish the questionnaire and save answers
     def finish(self):
-        for widget in self.container.winfo_children():
-            widget.destroy()
-        tk.Label(self.container, text="Thank you for completing the questionnaire!", bg="white", fg="black", font=("Arial", 16, "bold")).pack(pady=20)
-        tk.Button(self.container, text="Exit", command=self.quit, bg="#88c999", fg="white", font=("Arial", 14, "bold")).pack(pady=10)
-        print("Collected Answers:", self.answers)
+        with open("questionnaire_answers.json", "w") as file:
+            json.dump(self.answers, file, indent=4)
+
+        messagebox.showinfo("Thank You", "Your answers have been saved. Thank you for completing the questionnaire!")
+        self.master.quit()
 
 if __name__ == "__main__":
-    app = QuestionnaireApp()
+    root = tk.Tk()
+    app = QuestionnaireApp(master=root)
+    app.pack(fill="both", expand=True)
     app.mainloop()
