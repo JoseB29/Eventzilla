@@ -115,6 +115,13 @@ class EventPageInfo(tk.Frame):
         buy_ticket_button.image = buy_ticket_photo  # Keep a reference to avoid garbage collection
         buy_ticket_button.pack(pady=10)
 
+        # Bottom Bar
+        self.bottom_bar = tk.Frame(self, bg="#25A03D", height=bottom_bar_height)
+        self.bottom_bar.pack(side="bottom", fill="x")
+        self.bottom_bar.pack_propagate(False)
+
+        self.create_bottom_bar()
+
         def prinmt():
             print("Favorite button clicked")
             email = self.master.email
@@ -173,12 +180,6 @@ class EventPageInfo(tk.Frame):
         favorite_text = tk.Label(details_frame, text="Favorite Event", font=("Helvetica", 12), bg=self.bg_color)
         favorite_text.pack(pady=10)
 
-        # Bottom Bar
-        self.bottom_bar = tk.Frame(self, bg="#25A03D", height=bottom_bar_height)
-        self.bottom_bar.pack(side="bottom", fill="x")
-        self.bottom_bar.pack_propagate(False)
-
-        self.create_bottom_bar()
 
     def arrow_clicked(self, event):
         print("Arrow clicked!")

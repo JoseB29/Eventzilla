@@ -1,10 +1,6 @@
 import json
 import tkinter as tk
 from tkinter import ttk
-
-from profilePage import ProfilePage
-
- 
  
 class LoginApp(tk.Frame):
 

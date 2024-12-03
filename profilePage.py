@@ -2,6 +2,7 @@ import json
 import tkinter as tk
 from tkinter import ttk
 from accountManagement import AccountManagementScreen 
+from Settings import SettingsScreen
 from PIL import Image, ImageTk
 
 class ProfilePage (tk.Frame):
@@ -48,7 +49,9 @@ class ProfilePage (tk.Frame):
 
         # add My Notificantions button
         self.notification_button = tk.Button(
-            notification_frame, text="My Notifications                                                   >", bg="#D3D3D3", font=("Helvetica", 12, "bold"),
+            notification_frame, text="My Notifications                                                   >", 
+            bg="#D3D3D3", font=("Helvetica", 12, "bold"),
+            command=self.notification_preferences,
             relief="flat", fg="black", activebackground="#C0C0C0"
         )
         self.notification_button.pack(fill="x", side="top", anchor="w", padx=10, pady=5)
@@ -96,6 +99,11 @@ class ProfilePage (tk.Frame):
     def sign_out(self):
         self.master.show_screen1()  # Navigate to the sign-in screen
         self.destroy()  # Destroy the profile page
+    
+    def notification_preferences(self):
+        self.master.show_screen6()  # Navigate to the notification preferences screen
+        self.destroy()  # Destroy the profile page
+
 
     def get_username_by_email(self, email):
             try:
@@ -110,6 +118,7 @@ class ProfilePage (tk.Frame):
     
     def create_bottom_bar(self):
         self.bottom_bar.grid_columnconfigure((0, 1, 2, 3), weight=1)
+        self.add_bottom_bar_item("appElements/magnifyingIconMagnifying.webp", "Search", 0, self.search_clicked)
         self.add_bottom_bar_item("appElements\\for_you_logo.png", "For You", 1, self.for_you_clicked)
         self.add_bottom_bar_item("appElements\\ticketLogo.png", "My Events", 2, self.my_events_clicked)
         self.add_bottom_bar_item("appElements\\profile_icon.webp", "Profile", 3, self.profile_clicked)
@@ -136,6 +145,11 @@ class ProfilePage (tk.Frame):
         print("For You clicked")
         self.master.switch_to_for_you_page()
     
+    def search_clicked(self, event):
+        print("Search clicked")
+        #switch to search page
+        self.master.switch_to_def_search_page()
+        #move to search page
 
     def my_events_clicked(self, event):
         print("My Events clicked")
@@ -151,8 +165,8 @@ class ProfilePage (tk.Frame):
 
 
 
-# if __name__ == "__main__":
-#     root = tk.Tk()
-#     app = ProfilePage(master=root)
-#     app.pack(fill="both", expand=True)
-#     app.mainloop()
+if __name__ == "__main__":
+    root = tk.Tk()
+    app = ProfilePage(master=root)
+    app.pack(fill="both", expand=True)
+    app.mainloop()

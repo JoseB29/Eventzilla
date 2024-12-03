@@ -12,6 +12,7 @@ from forYouPage import ForYouPage
 from searchPageDef import DefSearchPage
 from eventInfoPage import EventPageInfo
 from eventInfoPageDiscoverAndForYou import EventPageInfoTwo
+from Settings import SettingsScreen
 
 class App(tk.Tk):
     def __init__(self):
@@ -72,6 +73,15 @@ class App(tk.Tk):
         self.current_screen = QuestionnaireApp(self)
         self.current_screen.pack(fill="both", expand=True)
         print("Showing Survey screen")
+
+    # Function to show the settings screen
+    def show_screen6(self):
+        if self.current_screen is not None:
+            print("Destroying current screen")
+            self.current_screen.destroy()
+        self.current_screen = SettingsScreen(self)
+        self.current_screen.pack(fill="both", expand=True)
+        print("Showing Settings screen")
     
     # Function to show the mood check screen
     def show_mood_check_screen(self):
@@ -91,7 +101,7 @@ class App(tk.Tk):
         self.current_screen.pack(fill="both", expand=True)
         print("Showing DiscoverPage screen")
 
-    #
+    # Function to switch to the search page
     def switch_to_search_page(self, search_query):
     # Destroy the current page completely
         for widget in self.winfo_children():

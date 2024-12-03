@@ -50,6 +50,13 @@ class ForYouPage(tk.Frame):
         )
         self.search_button.grid(row=0, column=1, sticky="ew", ipadx=10, ipady=8)
 
+        # Bottom Bar
+        self.bottom_bar = tk.Frame(self, bg="#25A03D", height=bottom_bar_height)
+        self.bottom_bar.pack(side="bottom", fill="x")
+        self.bottom_bar.pack_propagate(False)
+
+        self.create_bottom_bar()
+
         # Scrollable Section
         scrollable_section = tk.Frame(self, bg=self.bg_color, height=scrollable_height)
         scrollable_section.pack(fill="both", expand=True)
@@ -130,13 +137,6 @@ class ForYouPage(tk.Frame):
             "<Configure>",
             lambda e: self.scrollable_canvas.configure(scrollregion=self.scrollable_canvas.bbox("all"))
         )
-
-        # Bottom Bar
-        self.bottom_bar = tk.Frame(self, bg="#25A03D", height=bottom_bar_height)
-        self.bottom_bar.pack(side="bottom", fill="x")
-        self.bottom_bar.pack_propagate(False)
-
-        self.create_bottom_bar()
 
     def on_image_click(self, event, event_data):
         print(f"Image clicked for event: {event_data['name']}")
