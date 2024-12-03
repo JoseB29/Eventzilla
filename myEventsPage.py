@@ -1,7 +1,9 @@
 import tkinter as tk
 from tkinter import ttk
 from PIL import Image, ImageTk
-
+import json
+import os
+import webbrowser
 
 class MyEventsPage(tk.Frame):
     def __init__(self, master):
@@ -9,6 +11,7 @@ class MyEventsPage(tk.Frame):
         self.master = master
         self.current_page = None
         self.create_widgets()
+
 
     def create_widgets(self):
         self.configure(bg="#F5F5F5")  # Set background for the entire page
@@ -62,10 +65,97 @@ class MyEventsPage(tk.Frame):
         self.scrollable_canvas.configure(yscrollcommand=self.scrollbar.set)
 
 
-        #sample filling of the scrollable frame
-        for i in range(20):
-            tk.Label(self.scrollable_frame, text=f"Event {i + 1}", font=("Helvetica", 14), bg=self.bg_color).pack(pady=5, padx=10)
+        email = self.master.email
+        my_events = []
 
+        # Open the JSON file and load its content
+        with open("myEvents.json", "r") as file:
+            data = json.load(file)
+
+            # Search for the user object by email
+            user = next((item for item in data if item.get("email") == email), None)
+
+            if user and "favorites" in user:
+                # If the user is found and has favorites, retrieve them
+                my_events = user["favorites"]
+            else:
+                # Handle the case where the user has no favorites
+                my_events = []
+
+
+
+        #now check if there are any events
+        if len(my_events) == 0:
+            no_events_label = tk.Label(
+            self.scrollable_frame,
+            text="No events to display, start adding to your favorites!",
+            font=("Helvetica", 16),
+            bg=self.bg_color,
+            wraplength=265,
+            justify="center"  # Center-align the text within the label
+            )
+            no_events_label.pack(pady=60, padx=65, expand=True)  # Expand ensures it uses extra space for centering
+
+        else:
+            
+
+            #clear whatver is in the scrollable frame
+            for widget in self.scrollable_frame.winfo_children():
+                widget.destroy()
+ 
+
+            for event in my_events:
+                event_frame = tk.Frame(self.scrollable_frame, bg=self.bg_color, relief="solid", bd=1)
+                event_frame.pack(fill="x", padx=10, pady=10)
+
+            
+                eventPic = Image.open(f"saved_events_pics/{event['name']}.png")
+                resized_eventPic = eventPic.resize((100, 90), Image.LANCZOS)
+                Eventphoto = ImageTk.PhotoImage(resized_eventPic)
+                
+                # Save reference to prevent garbage collection
+                event_photo_label = tk.Label(event_frame, image=Eventphoto, bg=self.bg_color)
+                event_photo_label.image = Eventphoto
+                event_photo_label.pack(side="left", padx=10)
+            
+
+                event_name = tk.Label(event_frame, text=event["name"], font=("Helvetica", 16, "bold"), bg=self.bg_color, wraplength=200)
+                event_name.pack(pady=(10, 0))
+
+                event_date = tk.Label(event_frame, text=event["local_date"], font=("Helvetica", 12), bg=self.bg_color, wraplength=200)
+                event_date.pack(pady=(5, 0))
+
+                event_time = tk.Label(event_frame, text=event["local_time"], font=("Helvetica", 12), bg=self.bg_color, wraplength=200)
+                event_time.pack(pady=(5, 0))
+
+                venue_name = tk.Label(event_frame, text=event["venue_name"], font=("Helvetica", 12), bg=self.bg_color, wraplength=200)
+                venue_name.pack(pady=(5, 0))
+
+                venue_city = tk.Label(event_frame, text=event["venue_city"], font=("Helvetica", 12), bg=self.bg_color, wraplength=200)
+                venue_city.pack(pady=(5, 0))
+
+                venue_state = tk.Label(event_frame, text=event["venue_state"], font=("Helvetica", 12), bg=self.bg_color, wraplength=200)
+                venue_state.pack(pady=(5, 0))
+
+                # Remove button with red background
+                remove_button = tk.Button(
+                    event_frame, text="Remove", bg="red", fg="white", font=("Helvetica", 12, "bold"),
+                    relief="flat", activebackground="darkred",
+                    command=lambda event=event, frame=event_frame: self.remove_event(event, frame)
+                )
+                remove_button.pack(side="right", padx=10, pady=10)
+
+                #add a buy ticket button
+                buy_ticket_button = tk.Button(
+                    event_frame, text="Buy Ticket", bg="blue", fg="white", font=("Helvetica", 12, "bold"),
+                    relief="flat", activebackground="darkred",
+                    command=lambda event=event: self.buy_ticket(event)
+                )
+                buy_ticket_button.pack(side="right", padx=10, pady=10)
+
+
+    
+        
         self.scrollable_frame.bind(
             "<Configure>",
             lambda e: self.scrollable_canvas.configure(scrollregion=self.scrollable_canvas.bbox("all"))
@@ -77,6 +167,52 @@ class MyEventsPage(tk.Frame):
         self.bottom_bar.pack_propagate(False)
 
         self.create_bottom_bar()
+
+    def buy_ticket(self, event):
+        print(f"Buying ticket for event: {event['name']}")
+        # Open the event URL in the browser
+        webbrowser.open(event["event_url"])
+
+    def remove_event(self, event, frame):
+        """Removes the event and deletes its image from the folder."""
+        try:
+            # Remove the event from the JSON file
+            email = self.master.email
+            with open("myEvents.json", "r") as file:
+                data = json.load(file)
+
+            # Find the user and remove the event
+            user = next((item for item in data if item.get("email") == email), None)
+            if user and "favorites" in user:
+                user["favorites"] = [fav for fav in user["favorites"] if fav["name"] != event["name"]]
+
+            with open("myEvents.json", "w") as file:
+                json.dump(data, file, indent=4)
+
+            # Delete the event image
+            image_path = f"saved_events_pics/{event['name']}.png"
+            if os.path.exists(image_path):
+                os.remove(image_path)
+
+            # Remove the event frame from the UI
+            frame.destroy()
+
+            print(f"Event '{event['name']}' removed successfully.")
+
+            #check if there are any events left
+            if len(user["favorites"]) == 0:
+                #if there are no events left, display a message
+                no_events_label = tk.Label(
+                    self.scrollable_frame,
+                    text="No events to display, start adding to your favorites!",
+                    font=("Helvetica", 16),
+                    bg=self.bg_color,
+                    wraplength=265,
+                    justify="center"  # Center-align the text within the label
+                )
+                no_events_label.pack(pady=60, padx=65, expand=True)  # Expand ensures it uses extra space for centering
+        except Exception as e:
+            print(f"Error removing event: {e}")
 
     def create_bottom_bar(self):
         self.bottom_bar.grid_columnconfigure((0, 1, 2, 3), weight=1)

@@ -63,9 +63,7 @@ class DefSearchPage(tk.Frame):
 
 
         #In the middle adds text that says "Enter Something On The Search Bar To Get Started"
-        tk.Label(self.scrollable_frame, text="Enter Something On The Search Bar", font=("Helvetica", 14), bg=self.bg_color).pack(pady=5, padx=10)
-        # Add a new line
-        tk.Label(self.scrollable_frame, text="To Get Started", font=("Helvetica", 14), bg=self.bg_color).pack(pady=5, padx=10)
+        tk.Label(self.scrollable_frame, text="Enter Something On The Search Bar To Get Started", font=("Helvetica", 14), wraplength=200,bg=self.bg_color).pack(pady=60, padx=100)
         #make sure its in the middle of the screen
         self.scrollable_frame.bind(
             "<Configure>",

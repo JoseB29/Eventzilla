@@ -1,1 +1,1 @@
-switch_to_search_page
+y

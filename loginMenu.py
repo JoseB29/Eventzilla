@@ -98,7 +98,7 @@ class LoginApp(tk.Frame):
                 self.error_label.pack(fill="x", pady=(5, 10))
                 return
             
-
+        # Save the email from the box
         self.master.email = email
         print("Login pressed")
         self.master.show_mood_check_screen()

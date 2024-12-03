@@ -194,6 +194,9 @@ def get_event_basic_details(event_list, image_paths):
         local_date = dates.get('start', {}).get('localDate', 'N/A')
         local_time = dates.get('start', {}).get('localTime', 'N/A')
 
+        #get the link to the event
+        event_url = event.get('url', 'N/A')
+
         # Venue details
         venue = event.get('_embedded', {}).get('venues', [{}])[0]
         venue_name = venue.get('name', 'N/A')
@@ -208,7 +211,8 @@ def get_event_basic_details(event_list, image_paths):
             "venue_name": venue_name,
             "venue_city": venue_city,
             "venue_state": venue_state,
-            "image_path": image_path
+            "image_path": image_path,
+            "event_url": event_url
         }
         eventList.append(event_details)
 

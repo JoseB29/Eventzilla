@@ -22,10 +22,42 @@ class ConfirmEmailScreen(tk.Frame):
         self.confirm_button = tk.Button(self, text="Confirm", command=self.confirm_code)
         self.confirm_button.pack(pady=10)
 
+    def add_user_to_json(self, user_email):
+        # Load the existing data from the JSON file
+        try:
+            with open("myEvents.json", "r") as f:
+                data = json.load(f)
+        except FileNotFoundError:
+            data = []  # If file doesn't exist, start with an empty list
+
+        # Check if user already exists in the data
+        user_found = False
+        for user in data:
+            if user['email'] == user_email:
+                user_found = True
+                break
+        
+        # If user doesn't exist, create a new entry
+        if not user_found:
+            data.append({
+                "email": user_email,
+                "favorites": []
+            })
+
+            # Write the updated data back to the file
+            with open("myEvents.json", "w") as f:
+                json.dump(data, f, indent=4)
+
     def confirm_code(self):
         code = self.code_entry.get()
         if self.validate_code(code):
             messagebox.showinfo("Success", "Email confirmed successfully!")
+
+            email = self.master.email
+
+            # add the user to the json file
+            self.add_user_to_json(email)
+
             # go back to the survey screen
             self.master.show_screen5()
         else:

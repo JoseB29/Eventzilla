@@ -135,6 +135,9 @@ class CreateAccount(tk.Frame):
         print("User data saved successfully")
         self.send_confirmation_email(email)
 
+        #save the email to the master
+        self.master.email = email
+
         # confirm email screen
         self.master.show_screen4()
 

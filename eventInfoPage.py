@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import ttk
 from PIL import Image, ImageTk
 import webbrowser
+import json
 
 class EventPageInfo(tk.Frame):
     def __init__(self, master, search_results, event_info):
@@ -114,6 +115,46 @@ class EventPageInfo(tk.Frame):
         buy_ticket_button.image = buy_ticket_photo  # Keep a reference to avoid garbage collection
         buy_ticket_button.pack(pady=10)
 
+        def prinmt():
+            print("Favorite button clicked")
+            email = self.master.email
+
+            try:
+                # Open the JSON file and load the data
+                with open("myEvents.json", "r") as file:
+                    data = json.load(file)
+                    # Ensure data is a list
+                    if not isinstance(data, list):
+                        raise ValueError("JSON data is not a list")
+            except (FileNotFoundError, json.JSONDecodeError, ValueError):
+                # If the file does not exist, is empty, or has invalid JSON, initialize `data` as an empty list
+                data = []
+
+            # Find the user object by email
+            user = next((item for item in data if item.get("email") == email), None)
+
+            if user is None:
+                # If the user does not exist, create a new entry with the event info
+                data.append({"email": email, "favorites": [self.event_info]})
+            else:
+                # If the user exists, ensure `favorites` exists and add the event if not already present
+                if "favorites" not in user:
+                    user["favorites"] = []
+                if self.event_info not in user["favorites"]:
+                    user["favorites"].append(self.event_info)
+
+            # Write the updated data back to the JSON file
+            with open("myEvents.json", "w") as file:
+                json.dump(data, file, indent=4)
+            
+            #add event_image to the saved events pics folder
+            event_image.save(f"saved_events_pics/{self.event_info['name']}.png")
+        
+
+            print("Event added to favorites!")
+
+
+
         #Now add the favorite button under the buy ticket button
         favorite_image = Image.open("appElements/favButton.png")
         resized_favorite_image = favorite_image.resize((50, 50), Image.LANCZOS)
@@ -122,12 +163,15 @@ class EventPageInfo(tk.Frame):
         # Create a button and print a message when clicked
         favorite_button = tk.Button(details_frame, 
                                     image=favorite_photo, 
-                                    command=lambda: print("Favorite button clicked"),  # Print a message
+                                    command=prinmt,  # Print a message
                                     bg=self.bg_color, 
                                     bd=0)
         favorite_button.image = favorite_photo
         favorite_button.pack(pady=10)
-
+        
+        #add text under the favorite button
+        favorite_text = tk.Label(details_frame, text="Favorite Event", font=("Helvetica", 12), bg=self.bg_color)
+        favorite_text.pack(pady=10)
 
         # Bottom Bar
         self.bottom_bar = tk.Frame(self, bg="#25A03D", height=bottom_bar_height)

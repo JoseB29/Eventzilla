@@ -1,0 +1,53 @@
+[
+    {
+        "email": "josebolanos1229@gmail.com",
+        "favorites": [
+            {
+                "name": "Chicago Bears vs. Detroit Lions",
+                "local_date": "2024-12-22",
+                "local_time": "12:00:00",
+                "venue_name": "Soldier Field",
+                "venue_city": "Chicago",
+                "venue_state": "IL",
+                "image_path": "searchResult\\vv1A7Zkv0GkeNA-3S_image.jpg",
+                "event_url": "https://www.ticketmaster.com/chicago-bears-vs-detroit-lions-chicago-illinois-12-22-2024/event/04006064A31614B3"
+            },
+            {
+                "name": "Chicago Bulls vs. Phoenix Suns",
+                "local_date": "2025-02-22",
+                "local_time": "16:00:00",
+                "venue_name": "United Center",
+                "venue_city": "Chicago",
+                "venue_state": "IL",
+                "image_path": "searchResult\\vv1A7Zk78GkeHffj1_image.jpg",
+                "event_url": "https://www.ticketmaster.com/chicago-bulls-vs-phoenix-suns-chicago-illinois-02-22-2025/event/04006110BC51470A"
+            },
+            {
+                "name": "Music of the Baroque",
+                "local_date": "2025-03-02",
+                "local_time": "19:30:00",
+                "venue_name": "Center Theatre at North Shore Center for the Performing Arts",
+                "venue_city": "Skokie",
+                "venue_state": "IL",
+                "image_path": "searchResult\\vv1A6Zk7dGkdo8gls_image.jpg",
+                "event_url": "https://www.ticketmaster.com/music-of-the-baroque-skokie-illinois-03-02-2025/event/07006103D1435AF1"
+            }
+        ]
+    },
+    {
+        "email": "tpati4@uic.edu",
+        "favorites": []
+    },
+    {
+        "email": "adiaz218@uic.edu",
+        "favorites": []
+    },
+    {
+        "email": "aosuna2@uic.edu",
+        "favorites": []
+    },
+    {
+        "email": "jbola6@uic.edu",
+        "favorites": []
+    }
+]
