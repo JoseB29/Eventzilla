@@ -65,7 +65,7 @@ class SettingsScreen(tk.Frame):
         elif option == "Privacy & Security":
             self.controller.open_privacy_and_security_screen()
         elif option == "Log Out":  # Navigate to the Login Screen
-            self.controller.open_login_screen()
+            self.controller.show_screen1()
         else:
             messagebox.showinfo("Info", f"{option} is not implemented yet.")
 

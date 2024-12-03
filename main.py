@@ -90,7 +90,7 @@ class App(tk.Tk):
         self.current_screen.pack(fill="both", expand=True)
         print("Showing DiscoverPage screen")
 
-    #
+    # Function to switch to the search page
     def switch_to_search_page(self, search_query):
     # Destroy the current page completely
         for widget in self.winfo_children():

@@ -22,5 +22,11 @@
         "dob": "2002-11-20",
         "email": "tpati4@uic.edu",
         "password": "test123"
+    },
+    {
+        "username": "adiaz",
+        "dob": "2002-06-04",
+        "email": "adiaz218@uic.edu",
+        "password": "1234"
     }
 ]

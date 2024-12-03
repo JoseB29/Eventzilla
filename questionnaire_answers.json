@@ -1,19 +1,19 @@
 {
-    "zip_code": "12345",
+    "zip_code": "60629",
     "event_types": [
         "Arts and Museums",
         "Concerts",
         "Sports"
     ],
     "music_genres": [
-        "Hip Hop/Rap",
+        "Indie",
         "Latin",
         "Pop"
     ],
     "sports_interests": [
-        "Soccer",
-        "Football",
-        "Golf"
+        "Swimming",
+        "Volleyball",
+        "Esports"
     ],
     "price_tracking": false,
     "notification_frequency": "Once a Week",
