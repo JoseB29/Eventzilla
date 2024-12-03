@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 from PIL import Image, ImageTk
+import webbrowser
 
 class EventPageInfo(tk.Frame):
     def __init__(self, master, search_results, event_info):
@@ -63,7 +64,69 @@ class EventPageInfo(tk.Frame):
         resized_event_image = event_image.resize((390, 300), Image.LANCZOS)
         event_photo = ImageTk.PhotoImage(resized_event_image)
 
+        # Create label to display the image
+        self.event_image_label = tk.Label(self, image=event_photo)
+        self.event_image_label.image = event_photo  # Keep a reference to avoid garbage collection
+        self.event_image_label.pack(pady=10)
 
+        # Display event details
+        details_frame = tk.Frame(self, bg=self.bg_color)
+        details_frame.pack(pady=10, padx=10, fill="both")
+
+        title_text = f"Event: {event_name}"
+
+        # Adjust the font size for long event names
+        font_size = 16 if len(event_name) <= 25 else 14  # Reduce font size for longer names
+
+        event_name_label = tk.Label(
+            details_frame, 
+            text=title_text, 
+            font=("Helvetica", font_size, "bold"), 
+            bg=self.bg_color, 
+            wraplength=350,  # Optional: wrap the text if needed
+            justify="left"
+        )
+        event_name_label.pack(anchor="w", pady=5)
+
+        event_date_label = tk.Label(details_frame, text=f"Date: {event_date}", font=("Helvetica", 12), bg=self.bg_color)
+        event_date_label.pack(anchor="w", pady=5)
+
+        event_time_label = tk.Label(details_frame, text=f"Time: {event_time}", font=("Helvetica", 12), bg=self.bg_color)
+        event_time_label.pack(anchor="w", pady=5)
+
+        event_venue_label = tk.Label(details_frame, text=f"Venue: {event_venue}", font=("Helvetica", 12), bg=self.bg_color)
+        event_venue_label.pack(anchor="w", pady=5)
+
+        event_location_label = tk.Label(details_frame, text=f"Location: {event_city}, {event_state}", font=("Helvetica", 12), bg=self.bg_color)
+        event_location_label.pack(anchor="w", pady=5)
+
+        # Now add the buy ticket button under the location label
+        buy_ticket_image = Image.open("appElements/buyTicketButton.png")
+        resized_buy_ticket_image = buy_ticket_image.resize((200, 50), Image.LANCZOS)
+        buy_ticket_photo = ImageTk.PhotoImage(resized_buy_ticket_image)
+
+        # Create a button and use the event_url to open the URL in the default browser
+        buy_ticket_button = tk.Button(details_frame, 
+                                      image=buy_ticket_photo, 
+                                      command=lambda: webbrowser.open(event_url),  # Open the event URL
+                                      bg=self.bg_color, 
+                                      bd=0)
+        buy_ticket_button.image = buy_ticket_photo  # Keep a reference to avoid garbage collection
+        buy_ticket_button.pack(pady=10)
+
+        #Now add the favorite button under the buy ticket button
+        favorite_image = Image.open("appElements/favButton.png")
+        resized_favorite_image = favorite_image.resize((50, 50), Image.LANCZOS)
+        favorite_photo = ImageTk.PhotoImage(resized_favorite_image)
+
+        # Create a button and print a message when clicked
+        favorite_button = tk.Button(details_frame, 
+                                    image=favorite_photo, 
+                                    command=lambda: print("Favorite button clicked"),  # Print a message
+                                    bg=self.bg_color, 
+                                    bd=0)
+        favorite_button.image = favorite_photo
+        favorite_button.pack(pady=10)
 
 
         # Bottom Bar

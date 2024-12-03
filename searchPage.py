@@ -105,7 +105,14 @@ class SearchPage(tk.Frame):
                     event_info = tk.Frame(event_frame, bg=self.bg_color)
                     event_info.pack(fill="both", expand=True)
 
-                    tk.Label(event_info, text=event["name"], font=("Helvetica", 14), bg=self.bg_color).pack(anchor="w")
+                    tk.Label(
+                        event_info, 
+                        text=event["name"], 
+                        font=("Helvetica", 14), 
+                        bg=self.bg_color, 
+                        wraplength=350,  # Wrap text at 350 pixels wide
+                        justify="left"
+                    ).pack(anchor="w")
                     tk.Label(event_info, text=f"Date: {event['local_date']}", font=("Helvetica", 12), bg=self.bg_color).pack(anchor="w")
                     tk.Label(event_info, text=f"Time: {event['local_time']}", font=("Helvetica", 12), bg=self.bg_color).pack(anchor="w")
                     tk.Label(event_info, text=f"Location: {event['venue_name']}, {event['venue_city']}, {event['venue_state']}", font=("Arial", 12), bg=self.bg_color).pack(anchor="w")
@@ -114,6 +121,7 @@ class SearchPage(tk.Frame):
                     event_frame.bind("<Button-1>", lambda e, ev=event, frame=event_frame, srch=self.search_results, eventInfo=info, picInfo=image_paths: self.on_event_click(ev, frame, srch,eventInfo,picInfo))
                     for child in event_frame.winfo_children():
                         child.bind("<Button-1>", lambda e, ev=event, frame=event_frame, srch=self.search_results, eventInfo=info, picInfo=image_paths: self.on_event_click(ev, frame, srch,eventInfo,picInfo))
+
 
 
 

@@ -53,6 +53,7 @@ class App(tk.Tk):
         self.current_screen.pack(fill='both', expand=True)
         print("Showing CreateAccount screen")
 
+
     # Function to show the confirm email screen
     def show_screen4(self):
         if self.current_screen is not None:
@@ -62,7 +63,7 @@ class App(tk.Tk):
         self.current_screen.pack(fill='both', expand=True)
         print("Showing ConfirmEmailScreen screen")
 
-    # Function to show the survey screen
+    # Function to show the survey screen 
     def show_screen5(self):
         if self.current_screen is not None:
             print("Destroying current screen")
