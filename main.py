@@ -17,146 +17,76 @@ class App(tk.Tk):
         super().__init__()
         self.title("EventZilla")
         self.current_screen = None
-        self.current_page = None  # Initialize current_page
-        self.previous_page = None  # Initialize previous_page
+        self.previous_screens = []  # Stack to track previous screens
 
-        self.email = None
+        self.email = None  # Shared data attribute
 
-        self.show_screen1()
+        self.show_screen1()  # Start with the login screen
 
-    # Function to show the login screen
+    def switch_screen(self, screen_class, *args, **kwargs):
+        """
+        Core method to switch screens.
+        :param screen_class: Class of the screen to show.
+        :param args: Positional arguments for screen initialization.
+        :param kwargs: Keyword arguments for screen initialization.
+        """
+        if self.current_screen is not None:
+            print(f"Destroying {self.current_screen.__class__.__name__} screen")
+            self.previous_screens.append(self.current_screen)  # Save current screen
+            self.current_screen.destroy()
+
+        self.current_screen = screen_class(self, *args, **kwargs)
+        self.current_screen.pack(fill="both", expand=True)
+        print(f"Showing {screen_class.__name__} screen")
+
     def show_screen1(self):
-        if self.current_screen is not None:
-            print("Destroying current screen")
-            self.current_screen.destroy()
-        self.current_screen = LoginApp(self)
-        self.current_screen.pack(fill='both', expand=True)
-        print("Showing LoginApp screen")
+        self.switch_screen(LoginApp)
 
-    # Function to show the discover page
     def show_screen2(self):
-        if self.current_screen is not None:
-            print("Destroying current screen")
-            self.current_screen.destroy()
-        #self.current_screen = DiscoverPage(self)
-        self.current_screen = MoodCheckScreen(self)
-        self.current_screen.pack(fill='both', expand=True)
-        #print("Showing DiscoverPage screen")
-        print("Showing MoodCheck screen")
+        self.switch_screen(MoodCheckScreen)
 
-    # Function to show the create account screen
     def show_screen3(self):
-        if self.current_screen is not None:
-            print("Destroying current screen")
-            self.current_screen.destroy()
-        self.current_screen = CreateAccount(self)
-        self.current_screen.pack(fill='both', expand=True)
-        print("Showing CreateAccount screen")
+        self.switch_screen(CreateAccount)
 
-    # Function to show the confirm email screen
     def show_screen4(self):
-        if self.current_screen is not None:
-            print("Destroying current screen")
-            self.current_screen.destroy()
-        self.current_screen = ConfirmEmailScreen(self)
-        self.current_screen.pack(fill='both', expand=True)
-        print("Showing ConfirmEmailScreen screen")
+        self.switch_screen(ConfirmEmailScreen)
 
-    # Function to show the survey screen
     def show_screen5(self):
-        if self.current_screen is not None:
-            print("Destroying current screen")
-            self.current_screen.destroy()
-        self.current_screen = QuestionnaireApp(self)
-        self.current_screen.pack(fill="both", expand=True)
-        print("Showing Survey screen")
-    
-    # Function to show the mood check screen
+        self.switch_screen(QuestionnaireApp)
+
     def show_mood_check_screen(self):
-        if self.current_screen is not None:
-            print("Destroying current screen")
-            self.current_screen.destroy()
-        self.current_screen = MoodCheckScreen(self)
-        self.current_screen.pack(fill="both", expand=True)
-        print("Showing MoodCheck screen")
+        self.switch_screen(MoodCheckScreen)
 
-    # Function to show the discover page
     def show_discover_page(self):
-        if self.current_screen is not None:
-            print("Destroying current screen")
-            self.current_screen.destroy()
-        self.current_screen = DiscoverPage(self)  
-        self.current_screen.pack(fill="both", expand=True)
-        print("Showing DiscoverPage screen")
+        self.switch_screen(DiscoverPage)
 
-    #
     def switch_to_search_page(self, search_query):
-    # Destroy the current page completely
-        for widget in self.winfo_children():
-            widget.destroy()
+        self.switch_screen(SearchPage, search_query)
 
-        # Add the SearchPage
-        self.current_page = SearchPage(self, search_query)
-        self.current_page.pack(fill="both", expand=True)
-
-    # Function to switch to the default search page
     def switch_to_def_search_page(self):
-        # Destroy the current page completely
-        for widget in self.winfo_children():
-            widget.destroy()
+        self.switch_screen(DefSearchPage)
 
-        # Create a new SearchPage instance (without relying on DefSearchPage)
-        self.current_page = DefSearchPage(self)  # Pass the App instance
-        self.current_page.pack(fill="both", expand=True)
-
-    # Function to switch to the My Events page
     def switch_to_my_events_page(self):
-        for widget in self.winfo_children():
-            widget.destroy()
+        self.switch_screen(MyEventsPage)
 
-        self.current_page = MyEventsPage(self)
-        self.current_page.pack(fill="both", expand=True)
-
-    # Function to switch to the Profile page
     def switch_to_profile_page(self):
-        for widget in self.winfo_children():
-            widget.destroy()
+        self.switch_screen(ProfilePage, email=self.email)
 
-        self.current_page = ProfilePage(self, email=self.email)
-        self.current_page.pack(fill="both", expand=True)
-
-    # Function to switch to the For You page
     def switch_to_for_you_page(self):
-        for widget in self.winfo_children():
-            widget.destroy()
+        self.switch_screen(ForYouPage)
 
-        self.current_page = ForYouPage(self)
-        self.current_page.pack(fill="both", expand=True)
+    def switch_to_event_info_page(self, event_id=None):
+        self.switch_screen(EventPageInfo, event_id=event_id)
 
-    # Function to switch to the event info page
-    def switch_to_event_info_page(self):
-        for widget in self.winfo_children():
-            widget.destroy()
-
-        self.current_page = EventPageInfo(self)
-        self.current_page.pack(fill="both", expand=True)
-    
-    #Function to switch to the previous page
     def switch_to_previous_page(self):
-        if self.previous_page is not None:
-            print("Destroying current screen")
-            if self.current_page is not None:
-                self.current_page.destroy()
-            
-            self.current_page = self.previous_page
-            self.current_page.pack(fill="both", expand=True)
+        if self.previous_screens:
+            print(f"Returning to previous screen: {self.previous_screens[-1].__class__.__name__}")
+            self.current_screen.destroy()
+            self.current_screen = self.previous_screens.pop()
+            self.current_screen.pack(fill="both", expand=True)
         else:
+            print("No previous screens. Returning to DiscoverPage.")
             self.show_discover_page()
-
-        
-
-
-        
 
 
 if __name__ == "__main__":
