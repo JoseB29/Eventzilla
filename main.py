@@ -160,14 +160,6 @@ class App(tk.Tk):
         self.current_page = EventPageInfoTwo(self, event)
         self.current_page.pack(fill="both", expand=True)
 
-    
-
-        
-
-
-        
-
-
 if __name__ == "__main__":
     app = App()
     app.mainloop()

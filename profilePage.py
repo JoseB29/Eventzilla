@@ -93,8 +93,9 @@ class ProfilePage (tk.Frame):
     def open_account_management_screen(self):
         if self.current_screen:
             self.current_screen.destroy()  # Remove the current screen
-        self.current_screen = AccountManagementScreen(master=self)
+        self.current_screen = AccountManagementScreen(master=self.master, email=self.email)
         self.current_screen.pack(fill="both", expand=True)
+        self.destroy()  # Destroy the profile page
 
     def sign_out(self):
         self.master.show_screen1()  # Navigate to the sign-in screen
@@ -162,8 +163,6 @@ class ProfilePage (tk.Frame):
     def perform_search(self):
         search_query = self.search_bar.get()
         self.master.switch_to_search_page(search_query)
-
-
 
 if __name__ == "__main__":
     root = tk.Tk()
