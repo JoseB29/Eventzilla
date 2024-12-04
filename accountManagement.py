@@ -1,143 +1,102 @@
 import tkinter as tk
+import json
+import os
 from tkinter import messagebox
 
-
 class AccountManagementScreen(tk.Frame):
-    def __init__(self, master=None, controller=None):
-        super().__init__(master, width=390, height=964)  # Set fixed width and height
+    def __init__(self, master=None, email=None):
+        super().__init__(master)
         self.master = master
-        self.controller = controller
-
-        # TODO: Incorporate user's actual information they entered earlier 
-        self.user_data = {
-            "username": "user123",
-            "email": "user@example.com",
-            "name": "John Doe",
-            "phone": "123-456-7890",
-        }
-
-        # Ensure fixed screen size
-        self.master.title("Account Management")
-        self.master.geometry("390x964")
-        self.master.resizable(False, False)  # Disable resizing
+        self.email = email
+        self.user_data = None
+        self.load_user_data()
         self.create_widgets()
 
     def create_widgets(self):
-        # Header
-        tk.Label(
-            self,
-            text="Account Management",
-            font=("Helvetica", 18, "bold"),
-            bg="#4CAF50",
-            fg="white",
-            anchor="center",
-        ).pack(fill="x", pady=10)
+        title_frame = tk.Frame(self, bg="green")
+        title_frame.pack(fill=tk.X)
 
-        # Section: Account Information
-        tk.Label(self, text="Your Account Information:", font=("Helvetica", 12, "bold")).pack(pady=5)
-        self.info_frame = tk.Frame(self)
-        self.info_frame.pack(pady=10)
-        self.display_user_info()
+        self.title = tk.Label(title_frame, text="Account Management", font=("Helvetica", 24, "bold"), fg="white", bg="green")
+        self.title.pack(expand=True)
 
-        # Buttons for Account Management Options
-        button_style = {"font": ("Helvetica", 12), "bg": "#f5f5f5", "fg": "black", "width": 30}
-        #tk.Button(self, text="Change Password", command=self.change_password, **button_style).pack(pady=5)
-        tk.Button(self, text="Update Username", command=self.update_username, **button_style).pack(pady=5)
-        tk.Button(self, text="Edit Personal Info", command=self.edit_personal_info, **button_style).pack(pady=5)
+        self.username_label = tk.Label(self, text="Username:", font=("Helvetica", 14))
+        self.username_label.pack(pady=5)
+        self.username_entry = tk.Entry(self, font=("Helvetica", 14))
+        self.username_entry.pack(pady=5)
 
-        # Footer Section with Back Button
+        self.email_label = tk.Label(self, text="Email:", font=("Helvetica", 14))
+        self.email_label.pack(pady=5)
+        self.email_entry = tk.Entry(self, font=("Helvetica", 14))
+        self.email_entry.pack(pady=5)
+
+        self.password_label = tk.Label(self, text="Password:", font=("Helvetica", 14))
+        self.password_label.pack(pady=5)
+        self.password_entry = tk.Entry(self, font=("Helvetica", 14), show="*")
+        self.password_entry.pack(pady=5)
+
+        self.load_user_info()
+
         tk.Button(
-            self,
-            text="Back to Settings",
-            font=("Helvetica", 12, "bold"),
-            bg="#4CAF50",
-            fg="white",
-            width=20,
-            command=self.controller.open_settings_screen,
+            self, text="Done", font=("Helvetica", 12, "bold"), bg="#4CAF50", fg="white", width=20,
+            command=self.save_user_data
         ).pack(pady=20)
 
-    def display_user_info(self):
-        """Displays user information in the info frame."""
-        for widget in self.info_frame.winfo_children():
-            widget.destroy()  # Clear the frame
+        tk.Button(
+            self, text="Back", font=("Helvetica", 12, "bold"), bg="#4CAF50", fg="white", width=20,
+            command=self.master.switch_to_profile_page
+        ).pack(pady=20)
 
-        for key, value in self.user_data.items():
-            tk.Label(self.info_frame, text=f"{key.capitalize()}: {value}", font=("Helvetica", 10)).pack(anchor="w", padx=10)
+    def load_user_data(self):
+        user_data = []
+        if os.path.exists("users.json"):
+            with open("users.json", "r") as file:
+                user_data = json.load(file)
 
-    
-    def update_username(self):
-        """Opens a window to update the username."""
-        def submit_username():
-            new_username = username_entry.get()
-            if new_username.strip():
-                self.user_data["username"] = new_username.strip()
-                messagebox.showinfo("Success", "Username updated successfully!")
-                self.display_user_info()
-                username_window.destroy()
-            else:
-                messagebox.showerror("Error", "Username cannot be empty!")
+        user = next((u for u in user_data if u["email"] == self.email), None)
 
-        username_window = tk.Toplevel(self)
-        username_window.title("Update Username")
-        username_window.geometry("300x150")
-        username_window.resizable(False, False)
+        if user and 'username' in user and 'email' in user and 'password' in user:
+            self.user_data = {
+                "username": user['username'],
+                "email": user['email'],
+                "password": user['password']
+            }
+        else:
+            print("Error: Missing keys in user data")
 
-        tk.Label(username_window, text="New Username:", font=("Helvetica", 10)).pack(pady=5)
-        username_entry = tk.Entry(username_window, width=30)
-        username_entry.pack(pady=5)
+    def load_user_info(self):
+        if self.user_data:
+            self.username_entry.insert(0, self.user_data["username"])
+            self.email_entry.insert(0, self.user_data["email"])
+            self.password_entry.insert(0, self.user_data["password"])
+        else:
+            tk.Label(self, text="User data not found", font=("Helvetica", 14)).pack(pady=5)
 
-        tk.Button(username_window, text="Submit", font=("Helvetica", 10), command=submit_username).pack(pady=10)
+    def save_user_data(self):
+        new_username = self.username_entry.get()
+        new_email = self.email_entry.get()
+        new_password = self.password_entry.get()
 
-    def edit_personal_info(self):
-        """Opens a window to edit personal info."""
-        def submit_personal_info():
-            new_email = email_entry.get()
-            new_name = name_entry.get()
-            new_phone = phone_entry.get()
+        if not new_username or not new_email or not new_password:
+            messagebox.showerror("Error", "All fields are required")
+            return
 
-            # Update user data
-            if new_email.strip():
-                self.user_data["email"] = new_email.strip()
-            if new_name.strip():
-                self.user_data["name"] = new_name.strip()
-            if new_phone.strip():
-                self.user_data["phone"] = new_phone.strip()
+        if os.path.exists("users.json"):
+            with open("users.json", "r+") as file:
+                users = json.load(file)
+                for user in users:
+                    if user["email"] == self.email:
+                        user["username"] = new_username
+                        user["email"] = new_email
+                        user["password"] = new_password
+                        break
+                file.seek(0)
+                file.truncate()
+                json.dump(users, file, indent=4)
 
-            messagebox.showinfo("Success", "Personal information updated successfully!")
-            self.display_user_info()
-            personal_info_window.destroy()
+        messagebox.showinfo("Success", "User data updated successfully")
 
-        personal_info_window = tk.Toplevel(self)
-        personal_info_window.title("Edit Personal Info")
-        personal_info_window.geometry("300x250")
-        personal_info_window.resizable(False, False)
-
-        tk.Label(personal_info_window, text="Email:", font=("Helvetica", 10)).pack(pady=5)
-        email_entry = tk.Entry(personal_info_window, width=30)
-        email_entry.insert(0, self.user_data["email"])
-        email_entry.pack(pady=5)
-
-        tk.Label(personal_info_window, text="Name:", font=("Helvetica", 10)).pack(pady=5)
-        name_entry = tk.Entry(personal_info_window, width=30)
-        name_entry.insert(0, self.user_data["name"])
-        name_entry.pack(pady=5)
-
-        tk.Label(personal_info_window, text="Phone:", font=("Helvetica", 10)).pack(pady=5)
-        phone_entry = tk.Entry(personal_info_window, width=30)
-        phone_entry.insert(0, self.user_data["phone"])
-        phone_entry.pack(pady=5)
-
-        tk.Button(personal_info_window, text="Submit", font=("Helvetica", 10), command=submit_personal_info).pack(pady=10)
-
-        
-
-
-# if __name__ == "__main__":
-#     class Controller:
-#         def open_settings_screen(self):
-#             print("Navigating back to settings...")
-
-#     root = tk.Tk()
-#     app = AccountManagementScreen(master=root, controller=Controller())
-#     app.pack(fill="both", expand=True)
-#     root.mainloop()
+if __name__ == "__main__":
+    root = tk.Tk()
+    app = AccountManagementScreen(master=root, email="josebolanos1229@gmail.com")
+    app.pack(fill="both", expand=True)
+    root.mainloop()
